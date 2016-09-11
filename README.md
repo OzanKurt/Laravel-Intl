@@ -45,8 +45,6 @@ In your app config, add the Service Provider to the `$providers` array
 
 Output localized country names.
 
-Use the Facade (`Propaganistas\LaravelIntl\Facades\Country`) or the helper function (`country()`):
-
 ```php
 use Propaganistas\LaravelIntl\Facades\Country;
 
@@ -70,8 +68,6 @@ country()->all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 #### Currency
 
 Output localized currency names and format currency amounts into their localized pattern.
-
-Use the Facade (`Propaganistas\LaravelIntl\Facades\Currency`) or the helper function (`currency()`):
 
 ```php
 use Propaganistas\LaravelIntl\Facades\Currency;
@@ -108,8 +104,6 @@ Use the Facade (`Propaganistas\LaravelIntl\Facades\Carbon`) or the helper functi
 
 Output localized language names.
 
-Use the Facade (`Propaganistas\LaravelIntl\Facades\Language`) or the helper function (`language()`):
-
 ```php
 use Propaganistas\LaravelIntl\Facades\Language;
 
@@ -131,8 +125,6 @@ language()->all(); // ['en' => 'English', 'nl' => 'Dutch', ...]
 #### Number
 
 Output localized numeric values into their localized pattern.
-
-Use the Facade (`Propaganistas\LaravelIntl\Facades\Number`) or the helper function (`number()`):
 
 ```php
 use Propaganistas\LaravelIntl\Facades\Number;
