@@ -107,7 +107,7 @@ class Currency extends Intl
      */
     public function setFallbackLocale($locale)
     {
-        parent::setLocale($locale);
+        parent::setFallbackLocale($locale);
 
         $this->formatData->setFallbackLocale($locale);
 

@@ -121,7 +121,7 @@ class IntlServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('intl.date', function ($app) {
-           return new Date;
+            return new Date;
         });
 
         $this->app->bind(\Carbon\Carbon::class, function ($app) {
