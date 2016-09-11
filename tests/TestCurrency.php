@@ -1,0 +1,82 @@
+<?php namespace Propaganistas\LaravelIntl\Tests;
+
+use Orchestra\Testbench\TestCase;
+use Propaganistas\LaravelIntl\Facades\Currency;
+use Propaganistas\LaravelIntl\IntlServiceProvider;
+
+class TestCurrency extends TestCase
+{
+    public function getPackageProviders($app)
+    {
+        return [IntlServiceProvider::class];
+    }
+
+    public function setUp()
+    {
+        require_once __DIR__ . '/../src/helpers.php';
+
+        parent::setUp();
+    }
+
+    public function testHelper()
+    {
+        $this->assertEquals('US Dollar', currency('USD'));
+        $this->assertEquals('Propaganistas\LaravelIntl\Currency', get_class(currency()));
+        $this->assertEquals('€1,234.00', currency(1234, 'EUR'));
+    }
+
+    public function testLocalesCanBeChanged()
+    {
+        $currency = Currency::setLocale('nl');
+        $this->assertEquals('€ 1.234,00', $currency->format(1234, 'EUR'));
+
+        $currency = Currency::setLocale('foo');
+        $currency->setFallbackLocale('fr');
+        $this->assertEquals('1 234,00 €', $currency->format(1234, 'EUR'));
+
+        $this->app->setLocale('nl');
+        $this->assertEquals('Amerikaanse dollar', currency('USD'));
+
+        $this->app->setLocale('en');
+        $this->assertEquals('US Dollar', Currency::name('USD'));
+    }
+
+    public function testGet()
+    {
+        $currency = Currency::get('EUR');
+        $this->assertEquals('CommerceGuys\Intl\Currency\Currency', get_class($currency));
+    }
+
+    public function testAll()
+    {
+        $currencies = Currency::all();
+        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'US Dollar'], $currencies);
+
+        $currencies = Currency::setLocale('nl')->all();
+        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'Amerikaanse dollar'], $currencies);
+    }
+
+    public function testName()
+    {
+        $currency = Currency::name('USD');
+        $this->assertEquals('US Dollar', $currency);
+    }
+
+    public function testSymbol()
+    {
+        $currency = Currency::symbol('USD');
+        $this->assertEquals('$', $currency);
+    }
+
+    public function testFormat()
+    {
+        $currency = Currency::format(1234, 'EUR');
+        $this->assertEquals('€1,234.00', $currency);
+    }
+
+    public function testFormatAccounting()
+    {
+        $currency = Currency::formatAccounting(-1234, 'EUR');
+        $this->assertEquals('(€1,234.00)', $currency);
+    }
+}
