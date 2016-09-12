@@ -24,20 +24,26 @@ class TestCountry extends TestCase
         $this->assertEquals('Propaganistas\LaravelIntl\Country', get_class(country()));
     }
 
-    public function testLocalesCanBeChanged()
+    public function testHelperIsInSyncWithFacade()
     {
-        $country = Country::setLocale('nl');
-        $this->assertEquals('België', $country->name('BE'));
+        Country::setLocale('foo');
+        $this->assertEquals('foo', country()->getLocale());
+    }
 
+    public function testLocaleCanBeChanged()
+    {
+        $this->app->setLocale('nl');
+        $this->assertEquals('België', Country::name('BE'));
+
+        Country::setLocale('en');
+        $this->assertEquals('Belgium', Country::name('BE'));
+    }
+
+    public function testFallbackLocaleIsUsed()
+    {
         $country = Country::setLocale('foo');
         $country->setFallbackLocale('fr');
         $this->assertEquals('Belgique', $country->name('BE'));
-
-        $this->app->setLocale('nl');
-        $this->assertEquals('België', country('BE'));
-
-        $this->app->setLocale('en');
-        $this->assertEquals('Belgium', Country::name('BE'));
     }
 
     public function testGet()

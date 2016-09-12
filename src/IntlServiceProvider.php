@@ -1,12 +1,12 @@
 <?php namespace Propaganistas\LaravelIntl;
 
+use Carbon\Carbon;
 use CommerceGuys\Intl\Country\CountryRepository;
 use CommerceGuys\Intl\Currency\CurrencyRepository;
 use CommerceGuys\Intl\Language\LanguageRepository;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Date\DateServiceProvider;
-use Propaganistas\LaravelIntl\Facades\Carbon;
 
 class IntlServiceProvider extends ServiceProvider
 {
@@ -42,7 +42,7 @@ class IntlServiceProvider extends ServiceProvider
      */
     protected function registerCountryRepository()
     {
-        $this->app->bind(CountryRepository::class, function ($app) {
+        $this->app->singleton(CountryRepository::class, function ($app) {
             $repository = new CountryRepository;
             $repository->setDefaultLocale($app['config']['app.locale']);
             $repository->setFallbackLocale($app['config']['app.fallback_locale']);
@@ -60,7 +60,7 @@ class IntlServiceProvider extends ServiceProvider
      */
     protected function registerCurrencyRepository()
     {
-        $this->app->bind(CurrencyRepository::class, function ($app) {
+        $this->app->singleton(CurrencyRepository::class, function ($app) {
             $repository = new CurrencyRepository;
             $repository->setDefaultLocale($app['config']['app.locale']);
             $repository->setFallbackLocale($app['config']['app.fallback_locale']);
@@ -78,7 +78,7 @@ class IntlServiceProvider extends ServiceProvider
      */
     protected function registerLanguageRepository()
     {
-        $this->app->bind(LanguageRepository::class, function ($app) {
+        $this->app->singleton(LanguageRepository::class, function ($app) {
             $repository = new LanguageRepository;
             $repository->setDefaultLocale($app['config']['app.locale']);
             $repository->setFallbackLocale($app['config']['app.fallback_locale']);
@@ -96,7 +96,7 @@ class IntlServiceProvider extends ServiceProvider
      */
     protected function registerNumberRepository()
     {
-        $this->app->bind(NumberFormatRepository::class, function ($app) {
+        $this->app->singleton(NumberFormatRepository::class, function ($app) {
             $repository = new NumberFormatRepository;
             $repository->setDefaultLocale($app['config']['app.locale']);
             $repository->setFallbackLocale($app['config']['app.fallback_locale']);
@@ -120,12 +120,10 @@ class IntlServiceProvider extends ServiceProvider
             \Jenssegers\Date\Date::setFallbackLocale($app['config']['app.fallback_locale']);
         });
 
-        $this->app->bind('intl.date', function ($app) {
+        $this->app->singleton(Carbon::class, function () {
             return new Date;
         });
 
-        $this->app->bind(\Carbon\Carbon::class, function ($app) {
-            return $app->make('intl.date');
-        });
+        $this->app->alias(Carbon::class, 'intl.date');
     }
 }

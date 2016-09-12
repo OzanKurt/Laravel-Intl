@@ -19,6 +19,7 @@ localized values and formatting of numeric values into their localized patterns.
     * [Date](#date)
     * [Language](#language)
     * [Number](#number)
+* [Changing locales](#changing-locales)
     
 ### Installation
 
@@ -142,4 +143,23 @@ Number::percent(75); // 75 %
 // Application locale: en
 number(1000); // 1,000
 number()->percent(75); // 75%
+```
+
+### Changing locales
+
+Ever feel the need to use a locale other than the current application locale? You can force each component individually to the preferred locale by calling the `setLocale()` on the helper function or Facade.
+This can be performed anywhere throughout your application (e.g. the `boot()` method in a *ServiceProvider*), but be aware that all subsequent calls will be subject to the new locale.
+
+```php
+country()->setLocale($locale);
+currency()->setLocale($locale);
+carbon()->setLocale($locale);
+language()->setLocale($locale);
+number()->setLocale($locale);
+
+country()->setFallbackLocale($locale);
+currency()->setFallbackLocale($locale);
+carbon()->setFallbackLocale($locale);
+language()->setFallbackLocale($locale);
+number()->setFallbackLocale($locale);
 ```

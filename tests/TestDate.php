@@ -26,19 +26,25 @@ class TestDate extends TestCase
         $this->assertEquals(DateCore::parse('August 31'), carbon('August 31'));
     }
 
-    public function testLocalesCanBeChanged()
+    public function testHelperIsInSyncWithFacade()
     {
-        $date = Date::setLocale('nl');
-        $this->assertEquals('31 augustus', $date->parse('August 31')->format('j F'));
+        Date::setLocale('fr');
+        $this->assertEquals('fr', carbon()->getLocale());
+    }
 
-        $date::setFallbackLocale('fr');
-        $date->setLocale('foo');
-        $this->assertEquals('31 août', $date->parse('August 31')->format('j F'));
-
+    public function testLocaleCanBeChanged()
+    {
         $this->app->setLocale('nl');
-        $this->assertEquals('31 augustus', carbon('August 31')->format('j F'));
+        $this->assertEquals('31 augustus', Date::parse('August 31')->format('j F'));
 
-        $this->app->setLocale('fr');
+        Date::setLocale('en');
+        $this->assertEquals('31 August', Date::parse('August 31')->format('j F'));
+    }
+
+    public function testFallbackLocaleIsUsed()
+    {
+        Date::setFallbackLocale('fr');
+        Date::setLocale('foo');
         $this->assertEquals('31 août', Date::parse('August 31')->format('j F'));
     }
 }

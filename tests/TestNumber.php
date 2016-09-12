@@ -24,20 +24,26 @@ class TestNumber extends TestCase
         $this->assertEquals('Propaganistas\LaravelIntl\Number', get_class(number()));
     }
 
-    public function testLocalesCanBeChanged()
+    public function testHelperIsInSyncWithFacade()
     {
-        $number = Number::setLocale('nl');
-        $this->assertEquals('1.234', $number->format(1234));
+        Number::setLocale('foo');
+        $this->assertEquals('foo', number()->getLocale());
+    }
 
-        $number = Number::setLocale('foo');
-        $number->setFallbackLocale('fr');
-        $this->assertEquals('1 234', $number->format(1234));
-
+    public function testLocaleCanBeChanged()
+    {
         $this->app->setLocale('nl');
-        $this->assertEquals('1.234', number(1234));
+        $this->assertEquals('1.234', Number::format(1234));
 
-        $this->app->setLocale('en');
+        Number::setLocale('en');
         $this->assertEquals('1,234', Number::format(1234));
+    }
+
+    public function testFallbackLocaleIsUsed()
+    {
+        Number::setLocale('foo');
+        Number::setFallbackLocale('fr');
+        $this->assertEquals('1 234', Number::format(1234));
     }
 
     public function testGet()

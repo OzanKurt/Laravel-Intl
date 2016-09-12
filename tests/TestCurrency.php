@@ -25,20 +25,27 @@ class TestCurrency extends TestCase
         $this->assertEquals('€1,234.00', currency(1234, 'EUR'));
     }
 
-    public function testLocalesCanBeChanged()
+    public function testHelperIsInSyncWithFacade()
     {
-        $currency = Currency::setLocale('nl');
-        $this->assertEquals('€ 1.234,00', $currency->format(1234, 'EUR'));
+        Currency::setLocale('foo');
+        $this->assertEquals('foo', currency()->getLocale());
+    }
 
+    public function testLocaleCanBeChanged()
+    {
+        $this->app->setLocale('nl');
+        $this->assertEquals('Amerikaanse dollar', Currency::name('USD'));
+        $this->assertEquals('€ 1.234,00', Currency::format(1234, 'EUR'));
+
+        Currency::setLocale('en');
+        $this->assertEquals('US Dollar', Currency::name('USD'));
+    }
+
+    public function testFallbackLocaleIsUsed()
+    {
         $currency = Currency::setLocale('foo');
         $currency->setFallbackLocale('fr');
         $this->assertEquals('1 234,00 €', $currency->format(1234, 'EUR'));
-
-        $this->app->setLocale('nl');
-        $this->assertEquals('Amerikaanse dollar', currency('USD'));
-
-        $this->app->setLocale('en');
-        $this->assertEquals('US Dollar', Currency::name('USD'));
     }
 
     public function testGet()

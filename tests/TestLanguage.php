@@ -24,20 +24,26 @@ class TestLanguage extends TestCase
         $this->assertEquals('Propaganistas\LaravelIntl\Language', get_class(language()));
     }
 
-    public function testLocalesCanBeChanged()
+    public function testHelperIsInSyncWithFacade()
     {
-        $language = Language::setLocale('nl');
-        $this->assertEquals('Nederlands', $language->name('nl'));
+        Language::setLocale('foo');
+        $this->assertEquals('foo', language()->getLocale());
+    }
 
-        $language = Language::setLocale('foo');
-        $language->setFallbackLocale('fr');
-        $this->assertEquals('néerlandais', $language->name('nl'));
-
+    public function testLocaleCanBeChanged()
+    {
         $this->app->setLocale('nl');
-        $this->assertEquals('Nederlands', language('nl'));
+        $this->assertEquals('Nederlands', Language::name('nl'));
 
-        $this->app->setLocale('en');
+        Language::setLocale('en');
         $this->assertEquals('Dutch', Language::name('nl'));
+    }
+
+    public function testFallbackLocaleIsUsed()
+    {
+        Language::setLocale('foo');
+        Language::setFallbackLocale('fr');
+        $this->assertEquals('néerlandais', Language::name('nl'));
     }
 
     public function testGet()
