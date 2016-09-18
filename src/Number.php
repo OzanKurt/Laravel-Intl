@@ -89,21 +89,4 @@ class Number extends Intl
         // Unsupported.
         return [];
     }
-
-    /**
-     * Get the 'digits' property of a given NumberFormat.
-     *
-     * @param \CommerceGuys\Intl\NumberFormat\NumberFormat $format
-     * @return array
-     */
-    private function getDigitsOfFormat(NumberFormat $format)
-    {
-        $formatter = new NumberFormatter($format);
-
-        $reflection = new ReflectionClass($formatter);
-        $property = $reflection->getProperty('digits');
-        $property->setAccessible(true);
-
-        return $property->getValue($formatter);
-    }
 }
