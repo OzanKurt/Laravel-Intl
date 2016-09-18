@@ -90,7 +90,7 @@ class TestCurrency extends TestCase
     public function testParse()
     {
         $this->app->setLocale('nl');
-        $currency = Currency::parse('€ 1.234,00', 'EUR');
-        $this->assertEquals(1234, $currency);
+        $currency = Currency::parse('€ 1.234,50', 'EUR');
+        $this->assertEquals(1234.5, $currency);
     }
 }

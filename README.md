@@ -100,15 +100,13 @@ Parse localized values into native PHP numbers.
 ```php
 use Propaganistas\LaravelIntl\Facades\Currency;
 
-// Application locale: fr
-Currency::parse('1 000'); // 1000
-Currency::parse('1,5'); // 1.5
+// Application locale: nl
+Currency::parse('€ 1.234,50'); // 1234.5
 ```
 
 ```php
-// Application locale: fr
-currency()->parse('1 000'); // 1000
-currency()->parse('1,5'); // 1.5
+// Application locale: nl
+currency()->parse('€ 1.234,50'); // 1234.5
 ```
 
 #### Date
