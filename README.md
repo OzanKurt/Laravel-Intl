@@ -95,6 +95,22 @@ currency()->symbol('USD'); // $
 currency()->all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 ```
 
+Parse localized values into native PHP numbers.
+
+```php
+use Propaganistas\LaravelIntl\Facades\Currency;
+
+// Application locale: fr
+Currency::parse('1 000'); // 1000
+Currency::parse('1,5'); // 1.5
+```
+
+```php
+// Application locale: fr
+currency()->parse('1 000'); // 1000
+currency()->parse('1,5'); // 1.5
+```
+
 #### Date
 
 Output localized dates.
@@ -143,6 +159,22 @@ Number::percent(75); // 75 %
 // Application locale: en
 number(1000); // 1,000
 number()->percent(75); // 75%
+```
+
+Parse localized values into native PHP numbers.
+
+```php
+use Propaganistas\LaravelIntl\Facades\Number;
+
+// Application locale: fr
+Number::parse('1 000'); // 1000
+Number::parse('1,5'); // 1.5
+```
+
+```php
+// Application locale: fr
+number()->parse('1 000'); // 1000
+number()->parse('1,5'); // 1.5
 ```
 
 ### Changing locales

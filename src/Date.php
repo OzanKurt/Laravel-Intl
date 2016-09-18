@@ -12,13 +12,10 @@ class Date
 
     /**
      * Date constructor.
-     * 
-     * @param  string              $time
-     * @param  string|DateTimeZone $timezone
      */
-    public function __construct($time = null, $timezone = null)
+    public function __construct()
     {
-        $this->date = \Jenssegers\Date\Date::make($time, $timezone);
+        $this->date = \Jenssegers\Date\Date::make();
         $this->setLocale(App::getLocale());
         $this->setFallbackLocale(Config::get('app.fallback_locale'));
     }

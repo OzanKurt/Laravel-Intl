@@ -85,6 +85,22 @@ class Currency extends Intl
     }
 
     /**
+     * Parse a localized value into native PHP format.
+     *
+     * @param string|int|float $value
+     * @param string $currencyCode
+     * @return int|float
+     */
+    public function parse($value, $currencyCode)
+    {
+        $currency = $this->get($currencyCode);
+        $format = $this->formatData->get(null);
+        $formatter = new NumberFormatter($format, NumberFormatter::CURRENCY);
+
+        return $formatter->parseCurrency($value, $currency);
+    }
+
+    /**
      * Set the default locale.
      *
      * @param $locale

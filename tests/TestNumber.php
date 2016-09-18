@@ -70,4 +70,11 @@ class TestNumber extends TestCase
         $number = Number::percent(75);
         $this->assertEquals('75%', $number);
     }
+
+    public function testParse()
+    {
+        $this->app->setLocale('nl');
+        $number = Number::parse('1,2');
+        $this->assertEquals(1.2, $number);
+    }
 }

@@ -1,8 +1,10 @@
 <?php namespace Propaganistas\LaravelIntl;
 
 use CommerceGuys\Intl\Formatter\NumberFormatter;
+use CommerceGuys\Intl\NumberFormat\NumberFormat;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Propaganistas\LaravelIntl\Base\Intl;
+use ReflectionClass;
 
 class Number extends Intl
 {
@@ -50,6 +52,23 @@ class Number extends Intl
     }
 
     /**
+     * Parse a localized number into native PHP format.
+     *
+     * @param string|int|float $value
+     * @return int|float
+     */
+    public function parse($value)
+    {
+        $format = $this->get(null);
+        $formatter = new NumberFormatter($format);
+
+        // At time of writing, commerceguys/intl has number parsing still coupled to a currency. Parsing does
+        // succeed however,even though a value is provided without any currency. So let's just pass in
+        // a very rare currency to avoid unwanted formatting behavior. Sorry Cape Verdean Escudo!
+        return $formatter->parseCurrency($value, $currency = currency()->get('CVE'));
+    }
+
+    /**
      * Get a localized entry.
      *
      * @param string|null $code
@@ -69,5 +88,22 @@ class Number extends Intl
     {
         // Unsupported.
         return [];
+    }
+
+    /**
+     * Get the 'digits' property of a given NumberFormat.
+     *
+     * @param \CommerceGuys\Intl\NumberFormat\NumberFormat $format
+     * @return array
+     */
+    private function getDigitsOfFormat(NumberFormat $format)
+    {
+        $formatter = new NumberFormatter($format);
+
+        $reflection = new ReflectionClass($formatter);
+        $property = $reflection->getProperty('digits');
+        $property->setAccessible(true);
+
+        return $property->getValue($formatter);
     }
 }

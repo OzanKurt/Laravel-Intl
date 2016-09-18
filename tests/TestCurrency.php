@@ -86,4 +86,11 @@ class TestCurrency extends TestCase
         $currency = Currency::formatAccounting(-1234, 'EUR');
         $this->assertEquals('(€1,234.00)', $currency);
     }
+
+    public function testParse()
+    {
+        $this->app->setLocale('nl');
+        $currency = Currency::parse('€ 1.234,00', 'EUR');
+        $this->assertEquals(1234, $currency);
+    }
 }
