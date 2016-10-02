@@ -28,8 +28,8 @@
         "jenssegers/date": "^3.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8|^5.5",
-        "orchestra/testbench": "^3.0"
+        "orchestra/testbench": "^3.0",
+        "phpunit/phpunit": "^4.0|^5.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,6 +43,5 @@
         "psr-4": {
             "Propaganistas\\LaravelIntl\\Tests\\": "tests/"
         }
-    },
-    "prefer-stable": true
+    }
 }
