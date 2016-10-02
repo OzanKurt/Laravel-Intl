@@ -37,24 +37,6 @@ class Date
     }
 
     /**
-     * Handle dynamic, static calls to the object.
-     *
-     * @param  string  $method
-     * @param  array   $args
-     * @return mixed
-     */
-    public static function __callStatic($method, $args)
-    {
-        $instance = new static;
-
-        if (method_exists($instance, '_' . $method)) {
-            return call_user_func_array([$instance, '_' . $method], $args);
-        }
-
-        return call_user_func_array([$instance, $method], $args);
-    }
-
-    /**
      * Spoofed setLocale method.
      *
      * @param string $locale
