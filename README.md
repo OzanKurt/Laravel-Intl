@@ -77,13 +77,13 @@ use Propaganistas\LaravelIntl\Facades\Currency;
 Currency::name('USD'); // US Dollar
 Currency::symbol('USD'); // $
 Currency::format(1000, 'USD'); // $1,000.00
-Currency::formatAccounting(-1000, 'USD'); // ($1,234.00)
+Currency::formatAccounting(-1234, 'USD'); // ($1,234.00)
 Currency::all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 
 // Application locale: nl
 Currency::name('USD'); // Amerikaanse dollar
 Currency::format(1000, 'USD'); // $ 1.000,00
-Currency::formatAccounting(-1000, 'USD'); // (US$ 1.234,00)
+Currency::formatAccounting(-1234, 'USD'); // (US$ 1.234,00)
 Currency::all(); // ['USD' => 'Amerikaanse dollar', 'EUR' => 'Euro', ...]
 ```
 
