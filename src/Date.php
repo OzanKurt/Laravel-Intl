@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Propaganistas\LaravelIntl\Base\LocaleCallback;
 
 class Date
 {
+    use LocaleCallback;
+
     /**
      * @var \Jenssegers\Date\Date
      */

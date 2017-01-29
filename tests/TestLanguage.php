@@ -46,6 +46,17 @@ class TestLanguage extends TestCase
         $this->assertEquals('néerlandais', Language::name('nl'));
     }
 
+    public function testLocaleCanBeTemporarilyChanged()
+    {
+        $this->app->setLocale('nl');
+        $name = Language::forLocale('en', function($language) {
+            return Language::name('nl');
+        });
+
+        $this->assertEquals('nl', Language::getLocale());
+        $this->assertEquals('Dutch', $name);
+    }
+
     public function testGet()
     {
         $language = Language::get('nl');

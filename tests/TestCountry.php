@@ -46,6 +46,17 @@ class TestCountry extends TestCase
         $this->assertEquals('Belgique', $country->name('BE'));
     }
 
+    public function testLocaleCanBeTemporarilyChanged()
+    {
+        $this->app->setLocale('nl');
+        $name = Country::forLocale('en', function($country) {
+            return Country::name('BE');
+        });
+
+        $this->assertEquals('nl', Country::getLocale());
+        $this->assertEquals('Belgium', $name);
+    }
+
     public function testGet()
     {
         $country = Country::get('BE');

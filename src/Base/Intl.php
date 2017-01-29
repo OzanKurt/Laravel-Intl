@@ -4,6 +4,8 @@ use Propaganistas\LaravelIntl\Interfaces\IntlInterface;
 
 class Intl implements IntlInterface
 {
+    use LocaleCallback;
+
     /**
      * @var mixed
      */

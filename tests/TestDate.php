@@ -21,7 +21,7 @@ class TestDate extends TestCase
 
     public function testHelper()
     {
-        $this->assertEquals(DateCore::now(), carbon('now'));
+        $this->assertEquals((string) DateCore::now(), (string) carbon('now'));
         $this->assertEquals('Jenssegers\Date\Date', get_class(carbon()));
         $this->assertEquals(DateCore::parse('August 31'), carbon('August 31'));
     }
@@ -46,5 +46,16 @@ class TestDate extends TestCase
         Date::setFallbackLocale('fr');
         Date::setLocale('foo');
         $this->assertEquals('31 août', Date::parse('August 31')->format('j F'));
+    }
+
+    public function testLocaleCanBeTemporarilyChanged()
+    {
+        $this->app->setLocale('nl');
+        $date = Date::forLocale('en', function($currency) {
+            return Date::parse('August 31')->format('j F');
+        });
+
+        $this->assertEquals('nl', Date::getLocale());
+        $this->assertEquals('31 August', $date);
     }
 }

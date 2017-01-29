@@ -48,6 +48,17 @@ class TestCurrency extends TestCase
         $this->assertEquals('1 234,00 €', $currency->format(1234, 'EUR'));
     }
 
+    public function testLocaleCanBeTemporarilyChanged()
+    {
+        $this->app->setLocale('nl');
+        $name = Currency::forLocale('en', function($currency) {
+            return Currency::name('USD');
+        });
+
+        $this->assertEquals('nl', Currency::getLocale());
+        $this->assertEquals('US Dollar', $name);
+    }
+
     public function testGet()
     {
         $currency = Currency::get('EUR');

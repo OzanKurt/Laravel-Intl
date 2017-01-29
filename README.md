@@ -177,8 +177,20 @@ number()->parse('1,5'); // 1.5
 
 ### Changing locales
 
-Ever feel the need to use a locale other than the current application locale? You can force each component individually to the preferred locale by calling the `setLocale()` on the helper function or Facade.
-This can be performed anywhere throughout your application (e.g. the `boot()` method in a *ServiceProvider*), but be aware that all subsequent calls will be subject to the new locale.
+Ever feel the need to use a locale other than the current application locale? You can temporarily use another locale by using the `forLocale()` method.
+
+```php
+country()->name('US'); // United States
+
+country()->forLocale('nl', function($country) {
+    return $country->name('US');
+}); // Verenigde Staten
+
+country()->name('US'); // United States
+```
+
+Alternatively, you can force each component individually to the preferred locale for the rest of the application by calling the `setLocale()` on the helper function or Facade.
+Usually you'd set this in the `boot()` method of a *ServiceProvider*.
 
 ```php
 country()->setLocale($locale);

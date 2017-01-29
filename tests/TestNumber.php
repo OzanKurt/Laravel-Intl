@@ -46,6 +46,17 @@ class TestNumber extends TestCase
         $this->assertEquals('1 234', Number::format(1234));
     }
 
+    public function testLocaleCanBeTemporarilyChanged()
+    {
+        $this->app->setLocale('nl');
+        $number = Number::forLocale('en', function($country) {
+            return Number::format(1234);
+        });
+
+        $this->assertEquals('nl', Number::getLocale());
+        $this->assertEquals('1,234', $number);
+    }
+
     public function testGet()
     {
         $number = Number::get();
