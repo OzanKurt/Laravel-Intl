@@ -189,7 +189,7 @@ country()->forLocale('nl', function($country) {
 country()->name('US'); // United States
 ```
 
-Alternatively, you can force each component individually to the preferred locale for the rest of the application by calling the `setLocale()` on the helper function or Facade.
+Alternatively, you can force each component individually to the preferred locale for the remainder of the application by calling the `setLocale()` on the helper function or Facade.
 Usually you'd set this in the `boot()` method of a *ServiceProvider*.
 
 ```php
