@@ -7,7 +7,7 @@
 [![Total Downloads](https://poser.pugx.org/propaganistas/laravel-intl/downloads)](https://packagist.org/packages/propaganistas/laravel-intl)
 [![License](https://poser.pugx.org/propaganistas/laravel-intl/license)](https://packagist.org/packages/propaganistas/laravel-intl)
 
-Easy to use internationalization functions for Laravel 5 based on various libraries for easy retrieval of
+Easy to use internationalization functions for Laravel 5 and Lumen based on various libraries for easy retrieval of
 localized values and formatting of numeric values into their localized patterns.
 
 ### Overview
@@ -28,6 +28,7 @@ Run the following command to install the latest version of the package
 ```bash
 composer require propaganistas/laravel-intl
 ```
+
 #### Laravel
 In your app config, add the Service Provider to the `$providers` array
 
@@ -37,6 +38,7 @@ In your app config, add the Service Provider to the `$providers` array
     Propaganistas\LaravelIntl\IntlServiceProvider::class,
 ],
 ```
+
 #### Lumen
 In `bootstrap/app.php`, register the Service Provider
 
