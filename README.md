@@ -28,7 +28,7 @@ Run the following command to install the latest version of the package
 ```bash
 composer require propaganistas/laravel-intl
 ```
-
+#### Laravel
 In your app config, add the Service Provider to the `$providers` array
 
  ```php
@@ -36,6 +36,12 @@ In your app config, add the Service Provider to the `$providers` array
     ...
     Propaganistas\LaravelIntl\IntlServiceProvider::class,
 ],
+```
+#### Lumen
+In `bootstrap/app.php`, register the Service Provider
+
+ ```php
+$app->register(Propaganistas\LaravelIntl\IntlServiceProvider::class);
 ```
 
 ### Usage
@@ -45,7 +51,6 @@ In your app config, add the Service Provider to the `$providers` array
 #### Country
 
 Output localized country names.
-
 ```php
 use Propaganistas\LaravelIntl\Facades\Country;
 

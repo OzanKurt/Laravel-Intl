@@ -116,9 +116,7 @@ class IntlServiceProvider extends ServiceProvider
     {
         $this->app->register(DateServiceProvider::class);
 
-        $this->app->booted(function ($app) {
-            \Jenssegers\Date\Date::setFallbackLocale($app['config']['app.fallback_locale']);
-        });
+        \Jenssegers\Date\Date::setFallbackLocale($this->app['config']['app.fallback_locale']);
 
         $this->app->singleton(Carbon::class, function () {
             return new Date;
