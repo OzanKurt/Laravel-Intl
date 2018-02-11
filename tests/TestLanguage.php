@@ -6,7 +6,11 @@ use Propaganistas\LaravelIntl\IntlServiceProvider;
 
 class TestLanguage extends TestCase
 {
-    public function getPackageProviders($app)
+    /**
+     * @param \Illuminate\Foundation\Application $application
+     * @return array
+     */
+    protected function getPackageProviders($application)
     {
         return [IntlServiceProvider::class];
     }
