@@ -55,7 +55,7 @@ class Number extends Intl
      * Parse a localized number into native PHP format.
      *
      * @param string|int|float $value
-     * @return int|float
+     * @return string|false
      */
     public function parse($value)
     {

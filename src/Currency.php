@@ -89,7 +89,7 @@ class Currency extends Intl
      *
      * @param string|int|float $value
      * @param string $currencyCode
-     * @return int|float
+     * @return string|false
      */
     public function parse($value, $currencyCode)
     {
