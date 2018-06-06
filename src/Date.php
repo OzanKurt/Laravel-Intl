@@ -2,66 +2,62 @@
 
 namespace Propaganistas\LaravelIntl;
 
-use Jenssegers\Date\Date as BaseDate;
+use Propaganistas\LaravelIntl\Concerns\WithLocales;
 use Propaganistas\LaravelIntl\Contracts\Intl;
+use Propaganistas\LaravelIntl\Proxies\Date as DateProxy;
+use Punic\Data as FormatterData;
 
+/**
+ * @mixin \Jenssegers\Date\Date
+ */
 class Date extends Intl
 {
-    /**
-     * Handle dynamic calls to the object.
-     *
-     * @param string $method
-     * @param array $arguments
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        return BaseDate::{$method}(...$arguments);
+    use WithLocales {
+        setLocale as _setLocale;
+        setFallbackLocale as _setFallbackLocale;
     }
 
     /**
-     * Get the current locale.
+     * Dynamically handle calls to the class.
      *
-     * @return string
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
      */
-    public function getLocale()
+    public function __call($method, $parameters)
     {
-        return BaseDate::getLocale();
+        return DateProxy::make()->{$method}(...$parameters);
     }
 
     /**
      * Set the current locale.
      *
-     * @param $locale
+     * @param string $locale
      * @return $this
+     * @throws \Punic\Exception\InvalidLocale
      */
     public function setLocale($locale)
     {
-        BaseDate::setLocale($locale);
+        DateProxy::setLocale($locale);
 
-        return $this;
-    }
+        FormatterData::setDefaultLocale($locale);
 
-    /**
-     * Get the fallback locale.
-     *
-     * @return string
-     */
-    public function getFallbackLocale()
-    {
-        return BaseDate::getFallbackLocale();
+        return $this->_setLocale($locale);
     }
 
     /**
      * Set the fallback locale.
      *
-     * @param $locale
+     * @param string $locale
      * @return $this
+     * @throws \Punic\Exception\InvalidLocale
      */
     public function setFallbackLocale($locale)
     {
-        BaseDate::setFallbackLocale($locale);
+        DateProxy::setFallbackLocale($locale);
 
-        return $this;
+        FormatterData::setFallbackLocale($locale);
+
+        return $this->_setFallbackLocale($locale);
     }
 }

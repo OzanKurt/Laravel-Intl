@@ -1,5 +1,7 @@
 <?php
 
+use Propaganistas\LaravelIntl\Date;
+
 if (! function_exists('country')) {
     /**
      * Get a localized country name.
@@ -45,10 +47,14 @@ if (! function_exists('carbon')) {
      *
      * @param  string $time
      * @param  string|DateTimeZone $timezone
-     * @return \Jenssegers\Date\Date|string
+     * @return \Propaganistas\LaravelIntl\Date|string
      */
     function carbon($time = null, $timezone = null)
     {
+        if (is_null($time)) {
+            return app('intl.date');
+        }
+
         return app('intl.date')->make($time, $timezone);
     }
 }
