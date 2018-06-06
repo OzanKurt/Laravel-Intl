@@ -6,10 +6,13 @@ use CommerceGuys\Intl\Formatter\CurrencyFormatter;
 use CommerceGuys\Intl\Currency\CurrencyRepository;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Illuminate\Support\Arr;
+use Propaganistas\LaravelIntl\Concerns\WithLocales;
 use Propaganistas\LaravelIntl\Contracts\Intl;
 
 class Currency extends Intl
 {
+    use WithLocales;
+
     /**
      * Loaded localized currency data.
      *
@@ -23,20 +26,6 @@ class Currency extends Intl
      * @var array
      */
     protected $formatters;
-
-    /**
-     * The current locale.
-     *
-     * @var string $locale
-     */
-    protected $locale;
-
-    /**
-     * The current locale.
-     *
-     * @var string $locale
-     */
-    protected $fallbackLocale;
 
     /**
      * Get a localized record by key.
@@ -127,101 +116,37 @@ class Currency extends Intl
     }
 
     /**
-     * Get the current locale.
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    /**
-     * Set the current locale.
-     *
-     * @param $locale
-     * @return $this
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        $this->load($locale, $this->getFallbackLocale());
-
-        return $this;
-    }
-
-    /**
-     * Get the fallback locale.
-     *
-     * @return string
-     */
-    public function getFallbackLocale()
-    {
-        return $this->fallbackLocale;
-    }
-
-    /**
-     * Set the fallback locale.
-     *
-     * @param $locale
-     * @return $this
-     */
-    public function setFallbackLocale($locale)
-    {
-        $this->fallbackLocale = $locale;
-
-        $this->load($this->getLocale(), $locale);
-
-        return $this;
-    }
-
-    /**
-     * Load the format repository for the given locale.
-     *
-     * @param string $locale
-     * @return void
-     */
-    protected function load($locale, $fallbackLocale)
-    {
-        $key = $this->getLocalesKey($locale, $fallbackLocale);
-
-        if (! isset($this->data[$key])) {
-            $this->data[$key] = new CurrencyRepository($locale, $fallbackLocale);
-        }
-
-        if (! isset($this->formatters[$key])) {
-            $this->formatters[$key] = new CurrencyFormatter(
-                new NumberFormatRepository($fallbackLocale),
-                $this->data[$key],
-                ['locale' => $locale]
-            );
-        }
-    }
-
-    /**
      * Get the formatter's key.
      *
-     * @param string|null $locale
-     * @param string|null $fallbackLocale
+     * @param string $locale
+     * @param string $fallbackLocale
      * @return string
      */
-    protected function getLocalesKey($locale = null, $fallbackLocale = null)
+    protected function getLocalesKey($locale, $fallbackLocale)
     {
         return implode('|', [
-            $locale ?: $this->getLocale(),
-            $fallbackLocale ?: $this->getFallbackLocale(),
+            $locale,
+            $fallbackLocale,
         ]);
     }
 
     /**
-     * The current number formatter.
+     * The currency repository.
      *
      * @return \CommerceGuys\Intl\Currency\CurrencyRepository
      */
     protected function data()
     {
-        return $this->data[$this->getLocalesKey()];
+        $key = $this->getLocalesKey(
+            $locale = $this->getLocale(),
+            $fallbackLocale = $this->getFallbackLocale()
+        );
+
+        if (! isset($this->data[$key])) {
+            $this->data[$key] = new CurrencyRepository($locale, $fallbackLocale);
+        }
+
+        return $this->data[$key];
     }
 
     /**
@@ -231,7 +156,20 @@ class Currency extends Intl
      */
     protected function formatter()
     {
-        return $this->formatters[$this->getLocalesKey()];
+        $key = $this->getLocalesKey(
+            $locale = $this->getLocale(),
+            $fallbackLocale = $this->getFallbackLocale()
+        );
+
+        if (! isset($this->formatters[$key])) {
+            $this->formatters[$key] = new CurrencyFormatter(
+                new NumberFormatRepository($fallbackLocale),
+                $this->data(),
+                ['locale' => $locale]
+            );
+        }
+
+        return $this->formatters[$key];
     }
 
     /**

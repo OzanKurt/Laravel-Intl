@@ -5,30 +5,19 @@ namespace Propaganistas\LaravelIntl;
 use CommerceGuys\Intl\Formatter\NumberFormatter;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Illuminate\Support\Arr;
+use Propaganistas\LaravelIntl\Concerns\WithLocales;
 use Propaganistas\LaravelIntl\Contracts\Intl;
 
 class Number extends Intl
 {
+    use WithLocales;
+
     /**
      * Array of localized number formatters.
      *
      * @var array
      */
     protected $formatters;
-
-    /**
-     * The current locale.
-     *
-     * @var string $locale
-     */
-    protected $locale;
-
-    /**
-     * The current locale.
-     *
-     * @var string $locale
-     */
-    protected $fallbackLocale;
 
     /**
      * Format a number.
@@ -73,82 +62,17 @@ class Number extends Intl
     }
 
     /**
-     * Get the current locale.
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    /**
-     * Set the current locale.
-     *
-     * @param $locale
-     * @return $this
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        $this->load($locale, $this->getFallbackLocale());
-
-        return $this;
-    }
-
-    /**
-     * Get the fallback locale.
-     *
-     * @return string
-     */
-    public function getFallbackLocale()
-    {
-        return $this->fallbackLocale;
-    }
-
-    /**
-     * Set the fallback locale.
-     *
-     * @param $locale
-     * @return $this
-     */
-    public function setFallbackLocale($locale)
-    {
-        $this->fallbackLocale = $locale;
-
-        $this->load($this->getLocale(), $locale);
-
-        return $this;
-    }
-
-    /**
-     * Load the format repository for the given locale.
-     *
-     * @param string $locale
-     * @return void
-     */
-    protected function load($locale, $fallbackLocale)
-    {
-        $key = $this->getLocalesKey($locale, $fallbackLocale);
-
-        if (! isset($this->repositories[$key])) {
-            $this->formatters[$key] = new NumberFormatter(new NumberFormatRepository($fallbackLocale), ['locale' => $locale]);
-        }
-    }
-
-    /**
      * Get the formatter's key.
      *
-     * @param string|null $locale
-     * @param string|null $fallbackLocale
+     * @param string $locale
+     * @param string $fallbackLocale
      * @return string
      */
-    protected function getLocalesKey($locale = null, $fallbackLocale = null)
+    protected function getLocalesKey($locale, $fallbackLocale)
     {
         return implode('|', [
-            $locale ?: $this->getLocale(),
-            $fallbackLocale ?: $this->getFallbackLocale(),
+            $locale,
+            $fallbackLocale,
         ]);
     }
 
@@ -159,7 +83,16 @@ class Number extends Intl
      */
     protected function formatter()
     {
-        return $this->formatters[$this->getLocalesKey()];
+        $key = $this->getLocalesKey(
+            $locale = $this->getLocale(),
+            $fallbackLocale = $this->getFallbackLocale()
+        );
+
+        if (! isset($this->formatters[$key])) {
+            $this->formatters[$key] = new NumberFormatter(new NumberFormatRepository($fallbackLocale), ['locale' => $locale]);
+        }
+
+        return $this->formatters[$key];
     }
 
     /**
