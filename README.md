@@ -48,18 +48,13 @@ $app->register(Propaganistas\LaravelIntl\IntlServiceProvider::class);
 
 ### Usage
 
-> Note: **always** use the helper functions or Facades.
+> Note: **always** use the helper functions or Facades, or make use of dependency injection.
 
 #### Country
 
 Output localized country names.
 ```php
 use Propaganistas\LaravelIntl\Facades\Country;
-
-// Application locale: en
-Country::name('US'); // United States
-Country::currency('US'); // USD
-Country::all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 
 // Application locale: nl
 Country::name('US'); // Verenigde Staten
@@ -69,7 +64,6 @@ Country::all(); // ['US' => 'Verenigde Staten', 'BE' => 'België', ...]
 ```php
 // Application locale: en
 country('US'); // United States
-country()->currency('US'); // USD
 country()->all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 ```
 
@@ -80,15 +74,9 @@ Output localized currency names and format currency amounts into their localized
 ```php
 use Propaganistas\LaravelIntl\Facades\Currency;
 
-// Application locale: en
-Currency::name('USD'); // US Dollar
-Currency::symbol('USD'); // $
-Currency::format(1000, 'USD'); // $1,000.00
-Currency::formatAccounting(-1234, 'USD'); // ($1,234.00)
-Currency::all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
-
 // Application locale: nl
 Currency::name('USD'); // Amerikaanse dollar
+Currency::symbol('USD'); // $
 Currency::format(1000, 'USD'); // $ 1.000,00
 Currency::formatAccounting(-1234, 'USD'); // (US$ 1.234,00)
 Currency::all(); // ['USD' => 'Amerikaanse dollar', 'EUR' => 'Euro', ...]
@@ -97,8 +85,8 @@ Currency::all(); // ['USD' => 'Amerikaanse dollar', 'EUR' => 'Euro', ...]
 ```php
 // Application locale: en
 currency('USD'); // US Dollar
-currency(1000, 'USD'); // $1,000.00
 currency()->symbol('USD'); // $
+currency(1000, 'USD'); // $1,000.00
 currency()->all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 ```
 
@@ -129,10 +117,6 @@ Output localized language names.
 ```php
 use Propaganistas\LaravelIntl\Facades\Language;
 
-// Application locale: en
-Language::name('en'); // English
-Language::all(); // ['en' => 'English', 'nl' => 'Dutch', ...]
-
 // Application locale: nl
 Language::name('en'); // Engels
 Language::all(); // ['en' => 'Engels', 'nl' => 'Nederlands', ...]
@@ -152,18 +136,14 @@ Output localized numeric values into their localized pattern.
 use Propaganistas\LaravelIntl\Facades\Number;
 
 // Application locale: en
-Number::format(1000); // 1,000
-Number::percent(75); // 75%
-
-// Application locale: fr
-Number::format(1000); // 1 000
-Number::percent(75); // 75 %
+Number::format(1000); // '1,000'
+Number::percent('0.75'); // '75%'
 ```
 
 ```php
-// Application locale: en
-number(1000); // 1,000
-number()->percent(75); // 75%
+// Application locale: fr
+number(1000); // '1 000'
+number()->percent('0.75'); // '75 %'
 ```
 
 Parse localized values into native PHP numbers.
@@ -173,23 +153,17 @@ use Propaganistas\LaravelIntl\Facades\Number;
 
 // Application locale: fr
 Number::parse('1 000'); // 1000
-Number::parse('1,5'); // 1.5
-```
-
-```php
-// Application locale: fr
-number()->parse('1 000'); // 1000
 number()->parse('1,5'); // 1.5
 ```
 
 ### Changing locales
 
-Ever feel the need to use a locale other than the current application locale? You can temporarily use another locale by using the `forLocale()` method.
+Ever feel the need to use a locale other than the current application locale? You can temporarily use another locale by using the `usingLocale()` method.
 
 ```php
 country()->name('US'); // United States
 
-country()->forLocale('nl', function($country) {
+country()->usingLocale('nl', function($country) {
     return $country->name('US');
 }); // Verenigde Staten
 
@@ -198,17 +172,3 @@ country()->name('US'); // United States
 
 Alternatively, you can force each component individually to the preferred locale for the remainder of the application by calling the `setLocale()` on the helper function or Facade.
 Usually you'd set this in the `boot()` method of a *ServiceProvider*.
-
-```php
-country()->setLocale($locale);
-currency()->setLocale($locale);
-carbon()->setLocale($locale);
-language()->setLocale($locale);
-number()->setLocale($locale);
-
-country()->setFallbackLocale($locale);
-currency()->setFallbackLocale($locale);
-carbon()->setFallbackLocale($locale);
-language()->setFallbackLocale($locale);
-number()->setFallbackLocale($locale);
-```
