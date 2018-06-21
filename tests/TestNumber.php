@@ -69,7 +69,7 @@ class TestNumber extends TestCase
 
     public function testPercent()
     {
-        $number = Number::percent('0.75');
+        $number = Number::percent(0.75);
         $this->assertEquals('75%', $number);
     }
 
