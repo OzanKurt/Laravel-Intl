@@ -80,7 +80,7 @@ if (! function_exists('number')) {
     /**
      * Get a formatted localized number.
      *
-     * @param null $number
+     * @param string|int|float|null $number
      * @param array $options
      * @return \Propaganistas\LaravelIntl\Number|string
      */
