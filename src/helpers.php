@@ -1,6 +1,6 @@
 <?php
 
-use Propaganistas\LaravelIntl\Date;
+use Jenssegers\Date\Date;
 
 if (! function_exists('country')) {
     /**
@@ -47,15 +47,11 @@ if (! function_exists('carbon')) {
      *
      * @param  string $time
      * @param  string|DateTimeZone $timezone
-     * @return \Propaganistas\LaravelIntl\Date|string
+     * @return \Jenssegers\Date\Date|string
      */
     function carbon($time = null, $timezone = null)
     {
-        if (is_null($time)) {
-            return app('intl.date');
-        }
-
-        return app('intl.date')->make($time, $timezone);
+        return Date::make($time, $timezone);
     }
 }
 

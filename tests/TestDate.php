@@ -1,11 +1,8 @@
 <?php namespace Propaganistas\LaravelIntl\Tests;
 
-use Carbon\Carbon;
+use Jenssegers\Date\Date;
 use Orchestra\Testbench\TestCase;
-use Propaganistas\LaravelIntl\Date as DateCore;
-use Propaganistas\LaravelIntl\Facades\Date;
 use Propaganistas\LaravelIntl\IntlServiceProvider;
-use Propaganistas\LaravelIntl\Proxies\Date as DateProxy;
 
 class TestDate extends TestCase
 {
@@ -27,15 +24,8 @@ class TestDate extends TestCase
 
     public function testHelper()
     {
-        $this->assertEquals((string) Carbon::now(), (string) carbon('now'));
-        $this->assertEquals(DateCore::class, get_class(carbon()));
-        $this->assertEquals(Carbon::parse('August 31'), carbon('August 31'));
-    }
-
-    public function testHelperIsInSyncWithFacade()
-    {
-        Date::setLocale('fr');
-        $this->assertEquals('fr', carbon()->getLocale());
+        $this->assertEquals((string) Date::now(), (string) carbon('now'));
+        $this->assertEquals(Date::parse('August 31'), carbon('August 31'));
     }
 
     public function testLocaleCanBeChanged()
@@ -43,32 +33,8 @@ class TestDate extends TestCase
         $this->app->setLocale('nl');
         $this->assertEquals('31 augustus', Date::parse('August 31')->format('j F'));
 
-        Date::setLocale('en');
+        $this->app->setLocale('en');
         $this->assertEquals('31 August', Date::parse('August 31')->format('j F'));
-    }
-
-    public function testFallbackLocaleIsUsed()
-    {
-        Date::setFallbackLocale('fr');
-        Date::setLocale('foo');
-        $this->assertEquals('31 août', Date::parse('August 31')->format('j F'));
-    }
-
-    public function testLocaleCanBeTemporarilyChanged()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::usingLocale('en', function($currency) {
-            return Date::parse('August 31')->format('j F');
-        });
-
-        $this->assertEquals('nl', Date::getLocale());
-        $this->assertEquals('31 August', $date);
-    }
-
-    public function testStaticCallsAreForwarded()
-    {
-        $this->assertEquals(DateProxy::class, get_class(Date::create(2018,1,1)));
-        $this->assertEquals(DateProxy::class, get_class(carbon()->parse('August 31')));
     }
 
     public function testToShortDateString()
@@ -165,101 +131,5 @@ class TestDate extends TestCase
         $date = Date::create(2018,1,31,1,2,3)->toFullDatetimeString();
 
         $this->assertEquals('woensdag 31 januari 2018 om 01:02:03 GMT+00:00', $date);
-    }
-
-    public function testGetShortDateFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getShortDateFormat();
-
-        $this->assertEquals('dd-MM-yy', $date);
-    }
-
-    public function testGetMediumDateFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getMediumDateFormat();
-
-        $this->assertEquals('d MMM y', $date);
-    }
-
-    public function testGetLongDateFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getLongDateFormat();
-
-        $this->assertEquals('d MMMM y', $date);
-    }
-
-    public function testGetFullDateFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getFullDateFormat();
-
-        $this->assertEquals('EEEE d MMMM y', $date);
-    }
-
-    public function testGetShortTimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getShortTimeFormat();
-
-        $this->assertEquals('HH:mm', $date);
-    }
-
-    public function testGetMediumTimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getMediumTimeFormat();
-
-        $this->assertEquals('HH:mm:ss', $date);
-    }
-
-    public function testGetLongTimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getLongTimeFormat();
-
-        $this->assertEquals('HH:mm:ss z', $date);
-    }
-
-    public function testGetFullTimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getFullTimeFormat();
-
-        $this->assertEquals('HH:mm:ss zzzz', $date);
-    }
-
-    public function testGetShortDatetimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getShortDatetimeFormat();
-
-        $this->assertEquals('dd-MM-yy HH:mm', $date);
-    }
-
-    public function testGetMediumDatetimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getMediumDatetimeFormat();
-
-        $this->assertEquals('d MMM y HH:mm:ss', $date);
-    }
-
-    public function testGetLongDatetimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getLongDatetimeFormat();
-
-        $this->assertEquals('d MMMM y \'om\' HH:mm:ss z', $date);
-    }
-
-    public function testGetFullDatetimeFormat()
-    {
-        $this->app->setLocale('nl');
-        $date = Date::getFullDatetimeFormat();
-
-        $this->assertEquals('EEEE d MMMM y \'om\' HH:mm:ss zzzz', $date);
     }
 }

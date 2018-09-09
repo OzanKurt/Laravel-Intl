@@ -1,8 +1,10 @@
 <?php namespace Propaganistas\LaravelIntl;
 
-use Carbon\Carbon;
+use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Date\Date;
 use Jenssegers\Date\DateServiceProvider;
+use Punic\Data as Punic;
 
 class IntlServiceProvider extends ServiceProvider
 {
@@ -17,7 +19,6 @@ class IntlServiceProvider extends ServiceProvider
         $this->registerCurrency();
         $this->registerLanguage();
         $this->registerNumber();
-
         $this->registerDate();
     }
 
@@ -28,7 +29,11 @@ class IntlServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app['events']->listen(LocaleUpdated::class, function ($locale) {
+            $this->setLocale();
+        });
+
+        $this->setLocale();
     }
 
     /**
@@ -104,12 +109,23 @@ class IntlServiceProvider extends ServiceProvider
     {
         $this->app->register(DateServiceProvider::class);
 
-        $this->app->singleton(Date::class, function ($app) {
-            $repository = new Date;
+        require __DIR__.'/Macros/Carbon.php';
+    }
 
-            return $repository->setLocale($app['config']['app.locale'])->setFallbackLocale($app['config']['app.fallback_locale']);
-        });
+    /**
+     * Set locales on sub-libraries.
+     *
+     * @throws \Punic\Exception\InvalidLocale
+     */
+    protected function setLocale()
+    {
+        $locale = $this->app['config']['app.locale'];
+        $fallbackLocale = $this->app['config']['app.fallback_locale'];
 
-        $this->app->alias(Date::class, 'intl.date');
+        Punic::setDefaultLocale($locale);
+        Punic::setFallbackLocale($fallbackLocale);
+
+        Date::setLocale($locale);
+        Date::setFallbackLocale($fallbackLocale);
     }
 }
