@@ -15,7 +15,7 @@ class TestNumber extends TestCase
         return [IntlServiceProvider::class];
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         require_once __DIR__.'/../src/helpers.php';
 
@@ -47,7 +47,9 @@ class TestNumber extends TestCase
     {
         Number::setLocale('foo');
         Number::setFallbackLocale('fr');
-        $this->assertEquals('1 234', Number::format(1234));
+        $number = Number::format(1234);
+
+        $this->assertEquals('1 234', $number);
     }
 
     public function testLocaleCanBeTemporarilyChanged()
