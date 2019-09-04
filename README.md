@@ -30,7 +30,7 @@ composer require propaganistas/laravel-intl
 ```
 
 #### Laravel
-In your app config, add the Service Provider to the `$providers` array
+If you don't use auto-discovery, open up your app config and add the Service Provider to the `$providers` array:
 
  ```php
 'providers' => [

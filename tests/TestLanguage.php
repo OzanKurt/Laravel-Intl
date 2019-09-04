@@ -75,10 +75,12 @@ class TestLanguage extends TestCase
     public function testAll()
     {
         $languages = Language::all();
-        $this->assertArraySubset(['nl' => 'Dutch', 'fr' => 'French'], $languages);
+        $this->assertEquals('Dutch', $languages['nl']);
+        $this->assertEquals('French', $languages['fr']);
 
         $languages = Language::setLocale('nl')->all();
-        $this->assertArraySubset(['nl' => 'Nederlands', 'fr' => 'Frans'], $languages);
+        $this->assertEquals('Nederlands', $languages['nl']);
+        $this->assertEquals('Frans', $languages['fr']);
     }
 
     public function testName()

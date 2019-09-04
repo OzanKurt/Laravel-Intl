@@ -52,7 +52,7 @@ class TestCurrency extends TestCase
 
         $currency = Currency::format(1234, 'EUR');
 
-        $this->assertEquals('1 234,00 €', $currency);
+        $this->assertEquals('1 234,00 €', $currency);
     }
 
     public function testLocaleCanBeTemporarilyChanged()
@@ -75,10 +75,12 @@ class TestCurrency extends TestCase
     public function testAll()
     {
         $currencies = Currency::all();
-        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'US Dollar'], $currencies);
+        $this->assertEquals('Euro', $currencies['EUR']);
+        $this->assertEquals('US Dollar', $currencies['USD']);
 
         $currencies = Currency::setLocale('nl')->all();
-        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'Amerikaanse dollar'], $currencies);
+        $this->assertEquals('Euro', $currencies['EUR']);
+        $this->assertEquals('Amerikaanse dollar', $currencies['USD']);
     }
 
     public function testName()

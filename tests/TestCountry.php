@@ -69,10 +69,12 @@ class TestCountry extends TestCase
     public function testAll()
     {
         $countries = Country::all();
-        $this->assertArraySubset(['BE' => 'Belgium', 'FR' => 'France'], $countries);
+        $this->assertEquals('Belgium', $countries['BE']);
+        $this->assertEquals('France', $countries['FR']);
 
         $countries = Country::setLocale('nl')->all();
-        $this->assertArraySubset(['BE' => 'België', 'FR' => 'Frankrijk'], $countries);
+        $this->assertEquals('België', $countries['BE']);
+        $this->assertEquals('Frankrijk', $countries['FR']);
     }
 
     public function testName()
