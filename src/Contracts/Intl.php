@@ -88,11 +88,11 @@ abstract class Intl
             $includeCondition = $excludeCondition = true;
 
             if (! empty($includeKeywords)) {
-                $includeCondition = preg_match('/'.implode('|', $includeKeywords).'/', $name);
+                $includeCondition = (bool) preg_match('/'.implode('|', $includeKeywords).'/', $name);
             }
 
             if (! empty($excludeKeywords)) {
-                $excludeCondition = !preg_match('/'.implode('|', $excludeKeywords).'/', $name);
+                $excludeCondition = ! (bool) preg_match('/'.implode('|', $excludeKeywords).'/', $name);
             }
 
             return $includeCondition && $excludeCondition;
