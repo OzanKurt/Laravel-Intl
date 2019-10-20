@@ -2,8 +2,12 @@
 
 namespace Propaganistas\LaravelIntl\Contracts;
 
+use Illuminate\Support\Macroable;
+
 abstract class Intl
 {
+    use Macroable;
+    
     /**
      * Get the current locale.
      *
