@@ -2,7 +2,7 @@
 
 namespace Propaganistas\LaravelIntl\Contracts;
 
-use Illuminate\Support\Macroable;
+use Illuminate\Support\Traits\Macroable;
 
 abstract class Intl
 {
