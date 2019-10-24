@@ -1,9 +1,10 @@
-{
+nk{
     "name": "propaganistas/laravel-intl",
     "description": "Easy to use internationalization functions for Laravel",
     "keywords": [
         "laravel",
         "internationalization",
+        "language",
         "intl",
         "i18n",
         "l10n"
@@ -11,8 +12,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Propaganistas",
-            "email": "Propaganistas@users.noreply.github.com"
+            "name": "Ozan Kurt",
+            "email": "hello@ozankurt.com"
         }
     ],
     "require": {
@@ -31,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Propaganistas\\LaravelIntl\\": "src/"
+            "Kurt\\LaravelIntl\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -39,13 +40,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Propaganistas\\LaravelIntl\\Tests\\": "tests/"
+            "Kurt\\LaravelIntl\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Propaganistas\\LaravelIntl\\IntlServiceProvider"
+                "Kurt\\LaravelIntl\\IntlServiceProvider"
             ]
         }
     }
