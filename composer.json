@@ -1,5 +1,5 @@
 nk{
-    "name": "propaganistas/laravel-intl",
+    "name": "ozankurt/laravel-intl",
     "description": "Easy to use internationalization functions for Laravel",
     "keywords": [
         "laravel",
@@ -13,11 +13,11 @@ nk{
     "authors": [
         {
             "name": "Ozan Kurt",
-            "email": "hello@ozankurt.com"
+            "email": "me@ozankurt.com"
         }
     ],
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2.0",
         "illuminate/events": "^5.8|^6.0",
         "illuminate/support": "^5.8|^6.0",
         "nesbot/carbon": "^2.0",
