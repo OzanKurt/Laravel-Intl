@@ -1,8 +1,10 @@
-<?php namespace Propaganistas\LaravelIntl\Tests;
+<?php
+
+namespace Kurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Propaganistas\LaravelIntl\Facades\Language;
-use Propaganistas\LaravelIntl\IntlServiceProvider;
+use Kurt\LaravelIntl\Facades\Language;
+use Kurt\LaravelIntl\IntlServiceProvider;
 
 class TestLanguage extends TestCase
 {
@@ -30,7 +32,7 @@ class TestLanguage extends TestCase
     public function testHelper()
     {
         $this->assertEquals('Dutch', language('nl'));
-        $this->assertEquals('Propaganistas\LaravelIntl\Language', get_class(language()));
+        $this->assertEquals('Kurt\LaravelIntl\Language', get_class(language()));
     }
 
     public function testHelperIsInSyncWithFacade()
@@ -58,7 +60,7 @@ class TestLanguage extends TestCase
     public function testLocaleCanBeTemporarilyChanged()
     {
         $this->app->setLocale('nl');
-        $name = Language::usingLocale('en', function($language) {
+        $name = Language::usingLocale('en', function ($language) {
             return Language::name('nl');
         });
 

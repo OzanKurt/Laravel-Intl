@@ -1,13 +1,13 @@
 <?php
 
-namespace Propaganistas\LaravelIntl\Contracts;
+namespace Kurt\LaravelIntl\Contracts;
 
 use Illuminate\Support\Traits\Macroable;
 
 abstract class Intl
 {
     use Macroable;
-    
+
     /**
      * Get the current locale.
      *

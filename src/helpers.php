@@ -7,7 +7,7 @@ if (! function_exists('country')) {
      * Get a localized country name.
      *
      * @param string|null $countryCode
-     * @return \Propaganistas\LaravelIntl\Country|string
+     * @return \Kurt\LaravelIntl\Country|string
      */
     function country($countryCode = null)
     {
@@ -23,7 +23,7 @@ if (! function_exists('currency')) {
     /**
      * Get a localized currency or currency amount.
      *
-     * @return \Propaganistas\LaravelIntl\Currency|string
+     * @return \Kurt\LaravelIntl\Currency|string
      */
     function currency()
     {
@@ -60,7 +60,7 @@ if (! function_exists('language')) {
      * Get a localized language name.
      *
      * @param string|null $langCode
-     * @return \Propaganistas\LaravelIntl\Language|string
+     * @return \Kurt\LaravelIntl\Language|string
      */
     function language($langCode = null)
     {
@@ -78,7 +78,7 @@ if (! function_exists('number')) {
      *
      * @param string|int|float|null $number
      * @param array $options
-     * @return \Propaganistas\LaravelIntl\Number|string
+     * @return \Kurt\LaravelIntl\Number|string
      */
     function number($number = null, $options = [])
     {

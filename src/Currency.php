@@ -1,13 +1,13 @@
 <?php
 
-namespace Propaganistas\LaravelIntl;
+namespace Kurt\LaravelIntl;
 
-use CommerceGuys\Intl\Formatter\CurrencyFormatter;
-use CommerceGuys\Intl\Currency\CurrencyRepository;
-use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 use Illuminate\Support\Arr;
-use Propaganistas\LaravelIntl\Concerns\WithLocales;
-use Propaganistas\LaravelIntl\Contracts\Intl;
+use Kurt\LaravelIntl\Contracts\Intl;
+use Kurt\LaravelIntl\Concerns\WithLocales;
+use CommerceGuys\Intl\Currency\CurrencyRepository;
+use CommerceGuys\Intl\Formatter\CurrencyFormatter;
+use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 
 class Currency extends Intl
 {
@@ -70,7 +70,9 @@ class Currency extends Intl
      */
     public function format($number, $currencyCode, $options = [])
     {
-        return $this->formatter()->format($number, $currencyCode,
+        return $this->formatter()->format(
+            $number,
+            $currencyCode,
             $this->mergeOptions($options)
         );
     }
@@ -85,7 +87,9 @@ class Currency extends Intl
      */
     public function formatAccounting($number, $currencyCode, $options = [])
     {
-        return $this->formatter()->format($number, $currencyCode,
+        return $this->formatter()->format(
+            $number,
+            $currencyCode,
             $this->mergeOptions($options, ['style' => 'accounting'])
         );
     }
@@ -100,7 +104,9 @@ class Currency extends Intl
      */
     public function parse($number, $currencyCode, $options = [])
     {
-        return $this->formatter()->parse($number, $currencyCode,
+        return $this->formatter()->parse(
+            $number,
+            $currencyCode,
             $this->mergeOptions($options)
         );
     }

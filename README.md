@@ -1,14 +1,27 @@
 # Laravel Intl
 
-[![Build Status](https://travis-ci.org/Propaganistas/Laravel-Intl.svg?branch=master)](https://travis-ci.org/Propaganistas/Laravel-Intl)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/propaganistas/laravel-intl/v/stable)](https://packagist.org/packages/propaganistas/laravel-intl)
-[![Total Downloads](https://poser.pugx.org/propaganistas/laravel-intl/downloads)](https://packagist.org/packages/propaganistas/laravel-intl)
-[![License](https://poser.pugx.org/propaganistas/laravel-intl/license)](https://packagist.org/packages/propaganistas/laravel-intl)
-
-Easy to use internationalization functions for Laravel 5 and Lumen based on various libraries for easy retrieval of
+Easy to use internationalization functions for Laravel and Lumen based on various libraries for easy retrieval of
 localized values and formatting of numeric values into their localized patterns.
+
+This is a fork of [Propaganistas/Laravel-Intl](https://github.com/Propaganistas/Laravel-Intl). I will continue to maintain this package because I use it extensively in my own projects.
+
+Feel free to provide pull requests. I will include them as fast as possible!
+
+## 💥 Upgrade from Propaganistas/Laravel-Intl
+
+Probably you see this message all the time when installing Composer dependencies:
+
+> Package propaganistas/laravel-intl is abandoned, you should avoid using it. No replacement was suggested.
+
+Don't worry! This is the replacement you seek.
+
+In composer.json change requirement from `propaganistas/laravel-intl` to:
+
+    "ozankurt/laravel-intl": "^1.0",
+
+I changed the namespace of this package. In your project search for `Propaganistas` and replace it with `Kurt`.
+
+Thanks for migrating to this package!
 
 ### Overview
 
@@ -20,7 +33,7 @@ localized values and formatting of numeric values into their localized patterns.
     * [Language](#language)
     * [Number](#number)
 * [Changing locales](#changing-locales)
-    
+
 ### Installation
 
 Run the following command to install the latest version of the package

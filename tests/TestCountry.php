@@ -1,8 +1,10 @@
-<?php namespace Propaganistas\LaravelIntl\Tests;
+<?php
+
+namespace Kurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Propaganistas\LaravelIntl\Facades\Country;
-use Propaganistas\LaravelIntl\IntlServiceProvider;
+use Kurt\LaravelIntl\Facades\Country;
+use Kurt\LaravelIntl\IntlServiceProvider;
 
 class TestCountry extends TestCase
 {
@@ -30,7 +32,7 @@ class TestCountry extends TestCase
     public function testHelper()
     {
         $this->assertEquals('Belgium', country('BE'));
-        $this->assertEquals('Propaganistas\LaravelIntl\Country', get_class(country()));
+        $this->assertEquals('Kurt\LaravelIntl\Country', get_class(country()));
     }
 
     public function testHelperIsInSyncWithFacade()
@@ -58,7 +60,7 @@ class TestCountry extends TestCase
     public function testLocaleCanBeTemporarilyChanged()
     {
         $this->app->setLocale('nl');
-        $name = Country::usingLocale('en', function($country) {
+        $name = Country::usingLocale('en', function ($country) {
             return Country::name('BE');
         });
 

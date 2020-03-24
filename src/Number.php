@@ -1,12 +1,12 @@
 <?php
 
-namespace Propaganistas\LaravelIntl;
+namespace Kurt\LaravelIntl;
 
+use Illuminate\Support\Arr;
+use Kurt\LaravelIntl\Contracts\Intl;
+use Kurt\LaravelIntl\Concerns\WithLocales;
 use CommerceGuys\Intl\Formatter\NumberFormatter;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
-use Illuminate\Support\Arr;
-use Propaganistas\LaravelIntl\Concerns\WithLocales;
-use Propaganistas\LaravelIntl\Contracts\Intl;
 
 class Number extends Intl
 {
@@ -28,7 +28,8 @@ class Number extends Intl
      */
     public function format($number, $options = [])
     {
-        return $this->formatter()->format($number,
+        return $this->formatter()->format(
+            $number,
             $this->mergeOptions($options)
         );
     }
@@ -42,7 +43,8 @@ class Number extends Intl
      */
     public function percent($number, $options = [])
     {
-        return $this->formatter()->format($number,
+        return $this->formatter()->format(
+            $number,
             $this->mergeOptions($options, ['style' => 'percent'])
         );
     }
@@ -56,7 +58,8 @@ class Number extends Intl
      */
     public function parse($number, $options = [])
     {
-        return $this->formatter()->parse($number,
+        return $this->formatter()->parse(
+            $number,
             $this->mergeOptions($options)
         );
     }

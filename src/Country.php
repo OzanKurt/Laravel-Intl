@@ -1,10 +1,10 @@
 <?php
 
-namespace Propaganistas\LaravelIntl;
+namespace Kurt\LaravelIntl;
 
 use Illuminate\Support\Arr;
-use Propaganistas\LaravelIntl\Concerns\WithLocales;
-use Propaganistas\LaravelIntl\Contracts\Intl;
+use Kurt\LaravelIntl\Contracts\Intl;
+use Kurt\LaravelIntl\Concerns\WithLocales;
 
 class Country extends Intl
 {

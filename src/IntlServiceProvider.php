@@ -1,8 +1,10 @@
-<?php namespace Propaganistas\LaravelIntl;
+<?php
 
-use Illuminate\Foundation\Events\LocaleUpdated;
-use Illuminate\Support\ServiceProvider;
+namespace Kurt\LaravelIntl;
+
 use Punic\Data as Punic;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Events\LocaleUpdated;
 
 class IntlServiceProvider extends ServiceProvider
 {
