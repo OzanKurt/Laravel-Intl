@@ -17,9 +17,9 @@ nk{
         }
     ],
     "require": {
-        "php": ">=7.2.0",
-        "illuminate/events": "^5.8|^6.0",
-        "illuminate/support": "^5.8|^6.0",
+        "php": ">=7.2.5",
+        "illuminate/events": "^5.8|^6.0|^7.0",
+        "illuminate/support": "^5.8|^6.0|^7.0",
         "nesbot/carbon": "^2.0",
         "commerceguys/intl": "^1.0.1",
         "umpirsky/country-list": "^2.0",
