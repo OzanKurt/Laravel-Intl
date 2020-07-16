@@ -2,9 +2,9 @@
 
 namespace Kurt\LaravelIntl;
 
-use Punic\Data as Punic;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Events\LocaleUpdated;
+use Kurt\LaravelIntl\Console\InstallLocaleCommand;
 
 class IntlServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,6 @@ class IntlServiceProvider extends ServiceProvider
         $this->registerCurrency();
         $this->registerLanguage();
         $this->registerNumber();
-        $this->registerDate();
     }
 
     /**
@@ -34,14 +33,18 @@ class IntlServiceProvider extends ServiceProvider
         });
 
         $this->setLocale();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallLocaleCommand::class,
+            ]);
+        }
     }
 
     /**
      * Register the country repository.
-     *
-     * @return void
      */
-    protected function registerCountry()
+    protected function registerCountry(): void
     {
         $this->app->singleton(Country::class, function ($app) {
             $repository = new Country;
@@ -54,10 +57,8 @@ class IntlServiceProvider extends ServiceProvider
 
     /**
      * Register the currency repository.
-     *
-     * @return void
      */
-    protected function registerCurrency()
+    protected function registerCurrency(): void
     {
         $this->app->singleton(Currency::class, function ($app) {
             $repository = new Currency;
@@ -70,10 +71,8 @@ class IntlServiceProvider extends ServiceProvider
 
     /**
      * Register the language repository.
-     *
-     * @return void
      */
-    protected function registerLanguage()
+    protected function registerLanguage(): void
     {
         $this->app->singleton(Language::class, function ($app) {
             $repository = new Language;
@@ -86,10 +85,8 @@ class IntlServiceProvider extends ServiceProvider
 
     /**
      * Register the number repository.
-     *
-     * @return void
      */
-    protected function registerNumber()
+    protected function registerNumber(): void
     {
         $this->app->singleton(Number::class, function ($app) {
             $repository = new Number;
@@ -98,29 +95,5 @@ class IntlServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Number::class, 'intl.number');
-    }
-
-    /**
-     * Register the date handler.
-     *
-     * @return void
-     */
-    protected function registerDate()
-    {
-        require __DIR__.'/Macros/Carbon.php';
-    }
-
-    /**
-     * Set locales on sub-libraries.
-     *
-     * @throws \Punic\Exception\InvalidLocale
-     */
-    protected function setLocale()
-    {
-        $locale = $this->app['config']['app.locale'];
-        $fallbackLocale = $this->app['config']['app.fallback_locale'];
-
-        Punic::setDefaultLocale($locale);
-        Punic::setFallbackLocale($fallbackLocale);
     }
 }

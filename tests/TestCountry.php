@@ -27,61 +27,61 @@ class TestCountry extends TestCase
     protected function getEnvironmentSetUp($app)
     {
         $app->setBasePath(__DIR__ . '/..');
+        $app->setLocale('tr');
     }
 
     public function testHelper()
     {
-        $this->assertEquals('Belgium', country('BE'));
+        $this->assertEquals('Türkiye', country('TR'));
         $this->assertEquals('Kurt\LaravelIntl\Country', get_class(country()));
     }
 
     public function testHelperIsInSyncWithFacade()
     {
-        Country::setLocale('foo');
-        $this->assertEquals('foo', country()->getLocale());
+        Country::setLocale('tr');
+        $this->assertEquals('tr', country()->getLocale());
     }
 
     public function testLocaleCanBeChanged()
     {
-        $this->app->setLocale('nl');
-        $this->assertEquals('België', Country::name('BE'));
+        $this->assertEquals('Türkiye', country('TR'));
 
-        Country::setLocale('en');
-        $this->assertEquals('Belgium', Country::name('BE'));
+        country()->setLocale('de');
+
+        $this->assertEquals('Türkei', country('TR'));
     }
 
     public function testFallbackLocaleIsUsed()
     {
-        $country = Country::setLocale('foo');
-        $country->setFallbackLocale('fr');
-        $this->assertEquals('Belgique', $country->name('BE'));
+        country()->setLocale('de');
+
+        $this->assertEquals('Germany', country('DE'));
     }
 
     public function testLocaleCanBeTemporarilyChanged()
     {
-        $this->app->setLocale('nl');
-        $name = Country::usingLocale('en', function ($country) {
-            return Country::name('BE');
+        $name = Country::usingLocale('de', function ($country) {
+            return Country::name('TR');
         });
 
-        $this->assertEquals('nl', Country::getLocale());
-        $this->assertEquals('Belgium', $name);
+        $this->assertEquals('tr', Country::getLocale());
+        $this->assertEquals('Türkei', $name);
     }
 
     public function testAll()
     {
         $countries = Country::all();
-        $this->assertEquals('Belgium', $countries['BE']);
-        $this->assertEquals('France', $countries['FR']);
+        $this->assertEquals('Türkiye', $countries['TR']);
+        $this->assertEquals('Almanya', $countries['DE']); // Due to the fallback to `en`
 
-        $countries = Country::setLocale('nl')->all();
-        $this->assertEquals('België', $countries['BE']);
-        $this->assertEquals('Frankrijk', $countries['FR']);
+        $countries = Country::setLocale('de')->all();
+        $this->assertEquals('Türkei', $countries['TR']);
+        $this->assertEquals('Germany', $countries['DE']); // Due to the fallback to `en`
     }
 
     public function testName()
     {
-        $country = Country::name('BE');
-        $this->assertEquals('Belgium', $country);
+        $country = Country::name('TR');
+        $this->assertEquals('Türkiye', $country);
     }
 }

@@ -1,12 +1,13 @@
 <?php
 
-namespace Kurt\LaravelIntl;
+namespace Kurt\LaravelIntl\Models;
 
 use Illuminate\Support\Arr;
 use Kurt\LaravelIntl\Contracts\Intl;
 use Kurt\LaravelIntl\Concerns\WithLocales;
+use Kurt\LaravelIntl\Exceptions\MissingLocaleException;
 
-class Language extends Intl
+class Country extends Intl
 {
     use WithLocales;
 
@@ -15,36 +16,28 @@ class Language extends Intl
      *
      * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * Get a localized record by key.
-     *
-     * @param string $key
-     * @return mixed
      */
-    public function get($key)
+    public function get(string $key): string
     {
         return Arr::get($this->all(), $key);
     }
 
     /**
      * Alias of get().
-     *
-     * @param string $key
-     * @return string
      */
-    public function name($key)
+    public function name(string $key): string
     {
         return $this->get($key);
     }
 
     /**
      * Get all localized records.
-     *
-     * @return array
      */
-    public function all()
+    public function all(): array
     {
         $default = $this->data($this->getLocale());
         $fallback = $this->data($this->getFallbackLocale());
@@ -53,17 +46,18 @@ class Language extends Intl
     }
 
     /**
-     * Load the data for the given locale.
-     *
-     * @param string $locale
-     * @return array
+     * Get the data for the given locale.
      */
-    protected function data($locale)
+    protected function data(string $locale): array
     {
-        if (! isset($this->data[$locale])) {
-            $path = base_path('vendor/umpirsky/locale-list/data/'.$locale.'/locales.php');
+        if (! array_key_exists($locale, $this->data)) {
+            $localePath = storage_path("locales/{$locale}/country.php");
 
-            $this->data[$locale] = is_file($path) ? require $path : [];
+            if (! is_file($localePath)) {
+                throw new MissingLocaleException($locale);
+            }
+
+            $this->data[$locale] = require $localePath;
         }
 
         return $this->data[$locale];

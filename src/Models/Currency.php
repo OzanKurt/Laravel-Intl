@@ -1,6 +1,6 @@
 <?php
 
-namespace Kurt\LaravelIntl;
+namespace Kurt\LaravelIntl\Models;
 
 use Illuminate\Support\Arr;
 use Kurt\LaravelIntl\Contracts\Intl;
@@ -18,44 +18,35 @@ class Currency extends Intl
      *
      * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * Array of localized currency formatters.
      *
      * @var array
      */
-    protected $formatters;
+    protected $formatters = [];
 
     /**
      * Get a localized record by key.
-     *
-     * @param string $currencyCode
-     * @return string
      */
-    public function get($currencyCode)
+    public function get(string $currencyCode): string
     {
         return $this->data()->get($currencyCode)->getName();
     }
 
     /**
      * Alias of get().
-     *
-     * @param string $currencyCode
-     * @return string
      */
-    public function name($currencyCode)
+    public function name(string $currencyCode): string
     {
         return $this->get($currencyCode);
     }
 
     /**
      * Get the symbol of the given currency.
-     *
-     * @param string $currencyCode
-     * @return string
      */
-    public function symbol($currencyCode)
+    public function symbol(string $currencyCode): string
     {
         return $this->data()->get($currencyCode)->getSymbol();
     }
@@ -64,11 +55,9 @@ class Currency extends Intl
      * Format a number.
      *
      * @param string|int|float $number
-     * @param string $currencyCode
-     * @param array $options
      * @return mixed|string
      */
-    public function format($number, $currencyCode, $options = [])
+    public function format($number, string $currencyCode, array $options = [])
     {
         return $this->formatter()->format(
             $number,
@@ -81,11 +70,9 @@ class Currency extends Intl
      * Format a number.
      *
      * @param string|int|float $number
-     * @param string $currencyCode
-     * @param array $options
      * @return mixed|string
      */
-    public function formatAccounting($number, $currencyCode, $options = [])
+    public function formatAccounting($number, string $currencyCode, array $options = [])
     {
         return $this->formatter()->format(
             $number,
@@ -98,11 +85,9 @@ class Currency extends Intl
      * Parse a localized currency string into a number.
      *
      * @param string $number
-     * @param string $currencyCode
-     * @param array $options
      * @return mixed|string
      */
-    public function parse($number, $currencyCode, $options = [])
+    public function parse($number, string $currencyCode, array $options = [])
     {
         return $this->formatter()->parse(
             $number,
@@ -113,22 +98,16 @@ class Currency extends Intl
 
     /**
      * Get all localized records.
-     *
-     * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->data()->getList();
     }
 
     /**
      * Get the formatter's key.
-     *
-     * @param string $locale
-     * @param string $fallbackLocale
-     * @return string
      */
-    protected function getLocalesKey($locale, $fallbackLocale)
+    protected function getLocalesKey(string $locale, string $fallbackLocale): string
     {
         return implode('|', [
             $locale,
@@ -138,10 +117,8 @@ class Currency extends Intl
 
     /**
      * The currency repository.
-     *
-     * @return \CommerceGuys\Intl\Currency\CurrencyRepository
      */
-    protected function data()
+    protected function data(): CurrencyRepository
     {
         $key = $this->getLocalesKey(
             $locale = $this->getLocale(),
@@ -157,10 +134,8 @@ class Currency extends Intl
 
     /**
      * The current number formatter.
-     *
-     * @return \CommerceGuys\Intl\Formatter\CurrencyFormatter
      */
-    protected function formatter()
+    protected function formatter(): CurrencyFormatter
     {
         $key = $this->getLocalesKey(
             $locale = $this->getLocale(),
@@ -180,12 +155,8 @@ class Currency extends Intl
 
     /**
      * Merges the options array.
-     *
-     * @param array $options
-     * @param array $defaults
-     * @return array
      */
-    protected function mergeOptions(array $options, array $defaults = [])
+    protected function mergeOptions(array $options, array $defaults = []): array
     {
         Arr::forget($options, 'locale');
 

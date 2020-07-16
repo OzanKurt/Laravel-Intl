@@ -1,6 +1,6 @@
 <?php
 
-namespace Kurt\LaravelIntl;
+namespace Kurt\LaravelIntl\Models;
 
 use Illuminate\Support\Arr;
 use Kurt\LaravelIntl\Contracts\Intl;
@@ -17,7 +17,7 @@ class Number extends Intl
      *
      * @var array
      */
-    protected $formatters;
+    protected $formatters = [];
 
     /**
      * Format a number.
@@ -26,7 +26,7 @@ class Number extends Intl
      * @param array $options
      * @return string
      */
-    public function format($number, $options = [])
+    public function format($number, array $options = []): string
     {
         return $this->formatter()->format(
             $number,
@@ -38,10 +38,8 @@ class Number extends Intl
      * Format as percentage.
      *
      * @param string|int|float $number
-     * @param array $options
-     * @return string
      */
-    public function percent($number, $options = [])
+    public function percent($number, array $options = []): string
     {
         return $this->formatter()->format(
             $number,
@@ -56,7 +54,7 @@ class Number extends Intl
      * @param array $options
      * @return string|false
      */
-    public function parse($number, $options = [])
+    public function parse($number, array $options = [])
     {
         return $this->formatter()->parse(
             $number,
@@ -66,12 +64,8 @@ class Number extends Intl
 
     /**
      * Get the formatter's key.
-     *
-     * @param string $locale
-     * @param string $fallbackLocale
-     * @return string
      */
-    protected function getLocalesKey($locale, $fallbackLocale)
+    protected function getLocalesKey(string $locale, string $fallbackLocale): string
     {
         return implode('|', [
             $locale,
@@ -81,10 +75,8 @@ class Number extends Intl
 
     /**
      * The current number formatter.
-     *
-     * @return \CommerceGuys\Intl\Formatter\NumberFormatter
      */
-    protected function formatter()
+    protected function formatter(): NumberFormatter
     {
         $key = $this->getLocalesKey(
             $locale = $this->getLocale(),
@@ -105,7 +97,7 @@ class Number extends Intl
      * @param array $defaults
      * @return array
      */
-    protected function mergeOptions(array $options, array $defaults = [])
+    protected function mergeOptions(array $options, array $defaults = []): array
     {
         Arr::forget($options, 'locale');
 
