@@ -4,49 +4,81 @@ namespace Kurt\LaravelIntl\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 class InstallLocaleCommand extends Command
 {
-    protected $name = 'laravel-intl:install-locale {locale}';
+    protected $signature = 'laravel-intl:install-locale {locale}';
 
     protected $description = 'Install a new locale';
 
     protected $locale;
 
+    protected $resources = [
+        'country' => [
+            'name' => 'Country List',
+            'url' => 'https://raw.githubusercontent.com/umpirsky/country-list/master/data/%LOCALE%/country.php',
+        ],
+        'locale' => [
+            'name' => 'Locale List',
+            'url' => 'https://raw.githubusercontent.com/umpirsky/locale-list/master/data/%LOCALE%/locales.php',
+        ],
+    ];
+
     public function handle()
     {
-        $this->locale = $this->argument($locale);
+        $this->locale = $this->argument('locale');
 
-        $this->downloadCountryList();
+        $baseDirectoryPath = $this->getBaseDirectoryPath();
+
+        if (! File::isDirectory($baseDirectoryPath)) {
+            File::makeDirectory($baseDirectoryPath);
+        }
+
+        foreach ($this->resources as $key => $resource) {
+            $this->installSource($key, $resource);
+        }
     }
 
-    protected function downloadCountryList()
+    protected function installSource($key, $resource)
     {
-        $baseUrl = 'https://raw.githubusercontent.com/umpirsky/country-list/master/data/%LOCALE%/locales.php';
-
-        $url = str_replace('%LOCALE%', $this->locale, $baseUrl);
-
-        $response = Http::get($url);
+        $response = Http::get($this->updateSourceWithLocale($resource['url']));
 
         if ($response->failed()) {
-            $this->error("Country List for locale [{$this->locale}] could not be downloaded.");
+            $this->error("{$resource['name']} for [{$this->locale}] could not be downloaded.");
             return;
         }
 
-        File::put(storage_path("locales/{$this->locale}/country.php"), $response->body());
-    }
+        $directoryPath = $this->getDirectoryPath();
 
-    protected function downloadLocaleList()
-    {
-        $baseUrl = 'https://raw.githubusercontent.com/umpirsky/locale-list/master/data/%LOCALE%/locales.php';
-
-        $url = str_replace('%LOCALE%', $this->locale, $baseUrl);
-
-        if ($response->failed()) {
-            $this->error("Locale List for locale [{$this->locale}] could not be downloaded.");
-            return;
+        if (! File::isDirectory($directoryPath)) {
+            File::makeDirectory($directoryPath);
         }
 
-        File::put(storage_path("locales/{$this->locale}/locales.php"), $response->body());
+        $filePath = $this->getFilePath($key);
+
+        File::put($filePath, $response->body());
+
+        $this->info("{$filePath} for [{$this->locale}] has been successfully installed.");
+    }
+
+    protected function updateSourceWithLocale($source)
+    {
+        return str_replace('%LOCALE%', $this->locale, $source);
+    }
+
+    protected function getBaseDirectoryPath()
+    {
+        return storage_path("locales");
+    }
+
+    protected function getDirectoryPath()
+    {
+        return storage_path("locales/{$this->locale}");
+    }
+
+    protected function getFilePath($key)
+    {
+        return storage_path("locales/{$this->locale}/{$key}.php");
     }
 }

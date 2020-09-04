@@ -2,6 +2,10 @@
 
 namespace Kurt\LaravelIntl;
 
+use Kurt\LaravelIntl\Models\Number;
+use Kurt\LaravelIntl\Models\Country;
+use Kurt\LaravelIntl\Models\Currency;
+use Kurt\LaravelIntl\Models\Language;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Kurt\LaravelIntl\Console\InstallLocaleCommand;
@@ -29,15 +33,22 @@ class IntlServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['events']->listen(LocaleUpdated::class, function ($locale) {
-            $this->setLocale();
+            $this->setLocale($locale);
         });
-
-        $this->setLocale();
 
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallLocaleCommand::class,
             ]);
+        }
+    }
+
+    public function setLocale($locale)
+    {
+        $classes = [Country::class, Currency::class, Language::class, Number::class];
+
+        foreach ($classes as $class) {
+            app($class)->setLocale($locale);
         }
     }
 
