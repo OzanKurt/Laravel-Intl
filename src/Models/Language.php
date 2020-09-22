@@ -23,7 +23,7 @@ class Language extends Intl
      */
     public function get(string $key): string
     {
-        return Arr::get($this->all(), $key);
+        return Arr::get($this->all(), $key, $key);
     }
 
     /**
@@ -51,7 +51,7 @@ class Language extends Intl
     protected function data(string $locale): array
     {
         if (! array_key_exists($locale, $this->data)) {
-            $localePath = storage_path("locales/{$locale}/country.php");
+            $localePath = storage_path("locales/{$locale}/locale.php");
 
             if (! is_file($localePath)) {
                 throw new MissingLocaleException($locale);
