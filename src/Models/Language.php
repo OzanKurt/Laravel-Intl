@@ -21,25 +21,25 @@ class Language extends Intl
     /**
      * Get a localized record by key.
      */
-    public function get(string $key, $locale = null): string
+    public function get(string $key): string
     {
-        return Arr::get($this->all($locale), $key, $key);
+        return Arr::get($this->all(), $key, $key);
     }
 
     /**
      * Alias of get().
      */
-    public function name(string $key, $locale = null): string
+    public function name(string $key): string
     {
-        return $this->get($key, $locale);
+        return $this->get($key);
     }
 
     /**
      * Get all localized records.
      */
-    public function all($locale = null): array
+    public function all(): array
     {
-        $default = $this->data($locale ?? $this->getLocale());
+        $default = $this->data($this->getLocale());
         $fallback = $this->data($this->getFallbackLocale());
 
         return $default + $fallback;
