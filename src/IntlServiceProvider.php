@@ -33,7 +33,7 @@ class IntlServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['events']->listen(LocaleUpdated::class, function ($locale) {
-            $this->setLocale($locale);
+            $this->setLocale($locale->locale);
         });
 
         if ($this->app->runningInConsole()) {
