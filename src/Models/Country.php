@@ -51,7 +51,7 @@ class Country extends Intl
     protected function data(string $locale): array
     {
         if (! array_key_exists($locale, $this->data)) {
-            $localePath = storage_path("locales/{$locale}/country.php");
+            $localePath = base_path("storage/locales/{$locale}/country.php");
 
             if (! is_file($localePath)) {
                 throw new MissingLocaleException($locale);
