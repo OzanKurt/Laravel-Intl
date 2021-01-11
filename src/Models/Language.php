@@ -21,25 +21,25 @@ class Language extends Intl
     /**
      * Get a localized record by key.
      */
-    public function get(string $key): string
+    public function get(string $key, $locale = null): string
     {
-        return Arr::get($this->all(), $key, $key);
+        return Arr::get($this->all($locale), $key, $key);
     }
 
     /**
      * Alias of get().
      */
-    public function name(string $key): string
+    public function name(string $key, $locale = null): string
     {
-        return $this->get($key);
+        return $this->get($key, $locale);
     }
 
     /**
      * Get all localized records.
      */
-    public function all(): array
+    public function all($locale = null): array
     {
-        $default = $this->data($this->getLocale());
+        $default = $this->data($locale ?? $this->getLocale());
         $fallback = $this->data($this->getFallbackLocale());
 
         return $default + $fallback;
@@ -51,13 +51,13 @@ class Language extends Intl
     protected function data(string $locale): array
     {
         if (! array_key_exists($locale, $this->data)) {
-            $localePath = storage_path("locales/{$locale}/locale.php");
+            $localePath = base_path("storage/locales/{$locale}/locale.php");
 
             if (! is_file($localePath)) {
                 throw new MissingLocaleException($locale);
             }
 
-            $this->data[$locale] = require $localePath;
+            $this->data[$locale] = require_once $localePath;
         }
 
         return $this->data[$locale];
