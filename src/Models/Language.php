@@ -21,7 +21,7 @@ class Language extends Intl
     /**
      * Get a localized record by key.
      */
-    public function get(string $key): string
+    public function get(string $key): ?string
     {
         return Arr::get($this->all(), $key, $key);
     }
@@ -29,7 +29,7 @@ class Language extends Intl
     /**
      * Alias of get().
      */
-    public function name(string $key): string
+    public function name(string $key): ?string
     {
         return $this->get($key);
     }
