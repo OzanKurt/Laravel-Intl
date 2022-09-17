@@ -21,7 +21,7 @@ class Country extends Intl
     /**
      * Get a localized record by key.
      */
-    public function get(string $key): string
+    public function get(string $key): ?string
     {
         return Arr::get($this->all(), $key);
     }
@@ -29,7 +29,7 @@ class Country extends Intl
     /**
      * Alias of get().
      */
-    public function name(string $key): string
+    public function name(string $key): ?string
     {
         return $this->get($key);
     }
