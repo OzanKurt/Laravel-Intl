@@ -33,7 +33,7 @@ class TestCountry extends TestCase
     public function testHelper()
     {
         $this->assertEquals('Türkiye', country('TR'));
-        $this->assertEquals('Kurt\LaravelIntl\Country', get_class(country()));
+        $this->assertEquals('Kurt\LaravelIntl\Models\Country', get_class(country()));
     }
 
     public function testHelperIsInSyncWithFacade()

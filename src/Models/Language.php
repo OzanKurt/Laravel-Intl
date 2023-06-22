@@ -57,7 +57,7 @@ class Language extends Intl
                 throw new MissingLocaleException($locale);
             }
 
-            $this->data[$locale] = require_once $localePath;
+            $this->data[$locale] = require $localePath;
         }
 
         return $this->data[$locale];
