@@ -42,11 +42,11 @@ abstract class Intl
      * Run the given callable while using another locale.
      *
      * @param string $locale
-     * @param callable $callback
+     * @param string|callable $callback
      * @param string|null $fallbackLocale
      * @return mixed
      */
-    public function usingLocale($locale, callable $callback, $fallbackLocale = null)
+    public function usingLocale($locale, string|callable $callback, $fallbackLocale = null)
     {
         $originalLocale = $this->getLocale();
         $originalFallbackLocale = $this->getFallbackLocale();
@@ -54,7 +54,11 @@ abstract class Intl
         $this->setLocale($locale);
         $this->setFallbackLocale($fallbackLocale ?: $originalFallbackLocale);
 
-        $result = $callback($this);
+        if (is_string($callback)) {
+            $result = $this->get($callback);
+        } else {
+            $result = $callback($this);
+        }
 
         $this->setFallbackLocale($originalFallbackLocale);
         $this->setLocale($originalLocale);
