@@ -1,25 +1,19 @@
-<?php
-
-namespace Kurt\LaravelIntl\Tests;
+<?php namespace Propaganistas\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Currency;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use Propaganistas\LaravelIntl\Facades\Currency;
+use Propaganistas\LaravelIntl\IntlServiceProvider;
 
 class TestCurrency extends TestCase
 {
-    /**
-     * @param \Illuminate\Foundation\Application $application
-     * @return array
-     */
-    protected function getPackageProviders($application)
+    public function getPackageProviders($app)
     {
         return [IntlServiceProvider::class];
     }
 
-    public function setUp(): void
+    public function setUp()
     {
-        require_once __DIR__.'/../src/helpers.php';
+        require_once __DIR__ . '/../src/helpers.php';
 
         parent::setUp();
     }
@@ -27,7 +21,7 @@ class TestCurrency extends TestCase
     public function testHelper()
     {
         $this->assertEquals('US Dollar', currency('USD'));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Currency', get_class(currency()));
+        $this->assertEquals('Propaganistas\LaravelIntl\Currency', get_class(currency()));
         $this->assertEquals('€1,234.00', currency(1234, 'EUR'));
     }
 
@@ -47,22 +41,17 @@ class TestCurrency extends TestCase
         $this->assertEquals('US Dollar', Currency::name('USD'));
     }
 
-    // public function testFallbackLocaleIsUsed()
-    // {
-    //     Currency::setLocale('foo');
-    //     Currency::setFallbackLocale('fr');
-
-    //     $currency = Currency::format(1234, 'EUR');
-
-    //     $currency = \Normalizer::normalize($currency, \Normalizer::FORM_C);
-
-    //     $this->assertEquals("1 234,00 €", $currency);
-    // }
+    public function testFallbackLocaleIsUsed()
+    {
+        $currency = Currency::setLocale('foo');
+        $currency->setFallbackLocale('fr');
+        $this->assertEquals('1 234,00 €', $currency->format(1234, 'EUR'));
+    }
 
     public function testLocaleCanBeTemporarilyChanged()
     {
         $this->app->setLocale('nl');
-        $name = Currency::usingLocale('en', function ($currency) {
+        $name = Currency::forLocale('en', function($currency) {
             return Currency::name('USD');
         });
 
@@ -72,19 +61,17 @@ class TestCurrency extends TestCase
 
     public function testGet()
     {
-        $currency = Currency::get('USD');
-        $this->assertEquals('US Dollar', $currency);
+        $currency = Currency::get('EUR');
+        $this->assertEquals('CommerceGuys\Intl\Currency\Currency', get_class($currency));
     }
 
     public function testAll()
     {
         $currencies = Currency::all();
-        $this->assertEquals('Euro', $currencies['EUR']);
-        $this->assertEquals('US Dollar', $currencies['USD']);
+        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'US Dollar'], $currencies);
 
         $currencies = Currency::setLocale('nl')->all();
-        $this->assertEquals('Euro', $currencies['EUR']);
-        $this->assertEquals('Amerikaanse dollar', $currencies['USD']);
+        $this->assertArraySubset(['EUR' => 'Euro', 'USD' => 'Amerikaanse dollar'], $currencies);
     }
 
     public function testName()

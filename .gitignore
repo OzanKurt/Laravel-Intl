@@ -1,6 +1,4 @@
 /vendor
 /.idea
-/storage
 composer.phar
 composer.lock
-*.cache

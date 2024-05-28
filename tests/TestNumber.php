@@ -1,25 +1,19 @@
-<?php
-
-namespace Kurt\LaravelIntl\Tests;
+<?php namespace Propaganistas\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Number;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use Propaganistas\LaravelIntl\Facades\Number;
+use Propaganistas\LaravelIntl\IntlServiceProvider;
 
 class TestNumber extends TestCase
 {
-    /**
-     * @param \Illuminate\Foundation\Application $application
-     * @return array
-     */
-    protected function getPackageProviders($application)
+    public function getPackageProviders($app)
     {
         return [IntlServiceProvider::class];
     }
 
-    public function setUp(): void
+    public function setUp()
     {
-        require_once __DIR__.'/../src/helpers.php';
+        require_once __DIR__ . '/../src/helpers.php';
 
         parent::setUp();
     }
@@ -27,7 +21,7 @@ class TestNumber extends TestCase
     public function testHelper()
     {
         $this->assertEquals('1,234', number(1234));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Number', get_class(number()));
+        $this->assertEquals('Propaganistas\LaravelIntl\Number', get_class(number()));
     }
 
     public function testHelperIsInSyncWithFacade()
@@ -45,26 +39,35 @@ class TestNumber extends TestCase
         $this->assertEquals('1,234', Number::format(1234));
     }
 
-    // public function testFallbackLocaleIsUsed()
-    // {
-    //     Number::setLocale('foo');
-    //     Number::setFallbackLocale('fr');
-    //     $number = Number::format(1234);
-
-    //     $number = \Normalizer::normalize($number, \Normalizer::FORM_C);
-
-    //     $this->assertEquals('1 234', $number);
-    // }
+    public function testFallbackLocaleIsUsed()
+    {
+        Number::setLocale('foo');
+        Number::setFallbackLocale('fr');
+        $this->assertEquals('1 234', Number::format(1234));
+    }
 
     public function testLocaleCanBeTemporarilyChanged()
     {
         $this->app->setLocale('nl');
-        $number = Number::usingLocale('en', function ($country) {
+        $number = Number::forLocale('en', function($country) {
             return Number::format(1234);
         });
 
         $this->assertEquals('nl', Number::getLocale());
         $this->assertEquals('1,234', $number);
+    }
+
+    public function testGet()
+    {
+        $number = Number::get();
+        $this->assertEquals('CommerceGuys\Intl\NumberFormat\NumberFormat', get_class($number));
+        $this->assertEquals('%', $number->getPercentSign());
+    }
+
+    public function testAll()
+    {
+        $number = Number::all();
+        $this->assertEmpty($number);
     }
 
     public function testFormat()
@@ -75,7 +78,7 @@ class TestNumber extends TestCase
 
     public function testPercent()
     {
-        $number = Number::percent(0.75);
+        $number = Number::percent(75);
         $this->assertEquals('75%', $number);
     }
 

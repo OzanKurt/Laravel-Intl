@@ -1,10 +1,9 @@
 {
-    "name": "ozankurt/laravel-intl",
+    "name": "propaganistas/laravel-intl",
     "description": "Easy to use internationalization functions for Laravel",
     "keywords": [
         "laravel",
         "internationalization",
-        "language",
         "intl",
         "i18n",
         "l10n"
@@ -12,23 +11,23 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Ozan Kurt",
-            "email": "hello@ozankurt.com"
+            "name": "Propaganistas",
+            "email": "Propaganistas@users.noreply.github.com"
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
-        "laravel/framework": "^7.0|^8.0|^9.0|^10.0|^11.0",
-        "guzzlehttp/guzzle": "^6.2|^7.0",
-        "commerceguys/intl": "^2.0.4"
+        "php": ">=5.5.0",
+        "laravel/framework": "^5.0",
+        "commerceguys/intl": "^0.7.3",
+        "jenssegers/date": "^3.2"
     },
     "require-dev": {
-        "orchestra/testbench": "*",
-        "phpunit/phpunit": "*"
+        "orchestra/testbench": "^3.0",
+        "phpunit/phpunit": "^4.0|^5.0"
     },
     "autoload": {
         "psr-4": {
-            "Kurt\\LaravelIntl\\": "src/"
+            "Propaganistas\\LaravelIntl\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -36,14 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Kurt\\LaravelIntl\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Kurt\\LaravelIntl\\IntlServiceProvider"
-            ]
+            "Propaganistas\\LaravelIntl\\Tests\\": "tests/"
         }
     }
 }

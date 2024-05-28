@@ -1,27 +1,14 @@
 # Laravel Intl
 
-Easy to use internationalization functions for Laravel and Lumen based on various libraries for easy retrieval of
+[![Build Status](https://travis-ci.org/Propaganistas/Laravel-Intl.svg?branch=master)](https://travis-ci.org/Propaganistas/Laravel-Intl)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Propaganistas/Laravel-Intl/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/propaganistas/laravel-intl/v/stable)](https://packagist.org/packages/propaganistas/laravel-intl)
+[![Total Downloads](https://poser.pugx.org/propaganistas/laravel-intl/downloads)](https://packagist.org/packages/propaganistas/laravel-intl)
+[![License](https://poser.pugx.org/propaganistas/laravel-intl/license)](https://packagist.org/packages/propaganistas/laravel-intl)
+
+Easy to use internationalization functions for Laravel 5 based on various libraries for easy retrieval of
 localized values and formatting of numeric values into their localized patterns.
-
-This is a fork of [Propaganistas/Laravel-Intl](https://github.com/Propaganistas/Laravel-Intl). I will continue to maintain this package because I use it extensively in my own projects.
-
-Feel free to provide pull requests. I will include them as fast as possible!
-
-## 💥 Upgrade from Propaganistas/Laravel-Intl
-
-Probably you see this message all the time when installing Composer dependencies:
-
-> Package propaganistas/laravel-intl is abandoned, you should avoid using it. No replacement was suggested.
-
-Don't worry! This is the replacement you seek.
-
-In composer.json change requirement from `propaganistas/laravel-intl` to:
-
-    "ozankurt/laravel-intl": "^1.0",
-
-I changed the namespace of this package. In your project search for `Propaganistas` and replace it with `Kurt`.
-
-Thanks for migrating to this package!
 
 ### Overview
 
@@ -33,41 +20,39 @@ Thanks for migrating to this package!
     * [Language](#language)
     * [Number](#number)
 * [Changing locales](#changing-locales)
-
+    
 ### Installation
 
 Run the following command to install the latest version of the package
 
 ```bash
-composer require ozankurt/laravel-intl
+composer require propaganistas/laravel-intl
 ```
 
-#### Laravel
-If you don't use auto-discovery, open up your app config and add the Service Provider to the `$providers` array:
+In your app config, add the Service Provider to the `$providers` array
 
  ```php
 'providers' => [
     ...
-    Kurt\LaravelIntl\IntlServiceProvider::class,
+    Propaganistas\LaravelIntl\IntlServiceProvider::class,
 ],
-```
-
-#### Lumen
-In `bootstrap/app.php`, register the Service Provider
-
- ```php
-$app->register(Kurt\LaravelIntl\IntlServiceProvider::class);
 ```
 
 ### Usage
 
-> Note: **always** use the helper functions or Facades, or make use of dependency injection.
+> Note: **always** use the helper functions or Facades.
 
 #### Country
 
 Output localized country names.
+
 ```php
-use Kurt\LaravelIntl\Facades\Country;
+use Propaganistas\LaravelIntl\Facades\Country;
+
+// Application locale: en
+Country::name('US'); // United States
+Country::currency('US'); // USD
+Country::all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 
 // Application locale: nl
 Country::name('US'); // Verenigde Staten
@@ -77,6 +62,7 @@ Country::all(); // ['US' => 'Verenigde Staten', 'BE' => 'België', ...]
 ```php
 // Application locale: en
 country('US'); // United States
+country()->currency('US'); // USD
 country()->all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 ```
 
@@ -85,11 +71,17 @@ country()->all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 Output localized currency names and format currency amounts into their localized pattern.
 
 ```php
-use Kurt\LaravelIntl\Facades\Currency;
+use Propaganistas\LaravelIntl\Facades\Currency;
+
+// Application locale: en
+Currency::name('USD'); // US Dollar
+Currency::symbol('USD'); // $
+Currency::format(1000, 'USD'); // $1,000.00
+Currency::formatAccounting(-1234, 'USD'); // ($1,234.00)
+Currency::all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 
 // Application locale: nl
 Currency::name('USD'); // Amerikaanse dollar
-Currency::symbol('USD'); // $
 Currency::format(1000, 'USD'); // $ 1.000,00
 Currency::formatAccounting(-1234, 'USD'); // (US$ 1.234,00)
 Currency::all(); // ['USD' => 'Amerikaanse dollar', 'EUR' => 'Euro', ...]
@@ -98,15 +90,15 @@ Currency::all(); // ['USD' => 'Amerikaanse dollar', 'EUR' => 'Euro', ...]
 ```php
 // Application locale: en
 currency('USD'); // US Dollar
-currency()->symbol('USD'); // $
 currency(1000, 'USD'); // $1,000.00
+currency()->symbol('USD'); // $
 currency()->all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 ```
 
 Parse localized values into native PHP numbers.
 
 ```php
-use Kurt\LaravelIntl\Facades\Currency;
+use Propaganistas\LaravelIntl\Facades\Currency;
 
 // Application locale: nl
 Currency::parse('€ 1.234,50'); // 1234.5
@@ -119,40 +111,20 @@ currency()->parse('€ 1.234,50'); // 1234.5
 
 #### Date
 
-Just use `Illuminate\Support\Facades\Date`.
+Output localized dates.
 
-Additional methods are also available to output localized common date formats. E.g. `toShortDateString()`:
-
-* Locale "en": 1/31/2018
-* Locale "nl": 31-01-2018
-
-````php
-use Illuminate\Support\Facades\Date;
-
-$date = Date::now(); // or carbon()->now()
-
-$date->toShortDateString();
-$date->toMediumDateString();
-$date->toLongDateString();
-$date->toFullDateString();
-
-$date->toShortTimeString();
-$date->toMediumTimeString();
-$date->toLongTimeString();
-$date->toFullTimeString();
-
-$date->toShortDatetimeString();
-$date->toMediumDatetimeString();
-$date->toLongDatetimeString();
-$date->toFullDatetimeString();
-````
+Use the Facade (`Propaganistas\LaravelIntl\Facades\Carbon`) or the helper function (`carbon()`) as if it were [Carbon](http://carbon.nesbot.com).
 
 #### Language
 
 Output localized language names.
 
 ```php
-use Kurt\LaravelIntl\Facades\Language;
+use Propaganistas\LaravelIntl\Facades\Language;
+
+// Application locale: en
+Language::name('en'); // English
+Language::all(); // ['en' => 'English', 'nl' => 'Dutch', ...]
 
 // Application locale: nl
 Language::name('en'); // Engels
@@ -170,42 +142,66 @@ language()->all(); // ['en' => 'English', 'nl' => 'Dutch', ...]
 Output localized numeric values into their localized pattern.
 
 ```php
-use Kurt\LaravelIntl\Facades\Number;
+use Propaganistas\LaravelIntl\Facades\Number;
 
 // Application locale: en
-Number::format(1000); // '1,000'
-Number::percent('0.75'); // '75%'
+Number::format(1000); // 1,000
+Number::percent(75); // 75%
+
+// Application locale: fr
+Number::format(1000); // 1 000
+Number::percent(75); // 75 %
 ```
 
 ```php
-// Application locale: fr
-number(1000); // '1 000'
-number()->percent('0.75'); // '75 %'
+// Application locale: en
+number(1000); // 1,000
+number()->percent(75); // 75%
 ```
 
 Parse localized values into native PHP numbers.
 
 ```php
-use Kurt\LaravelIntl\Facades\Number;
+use Propaganistas\LaravelIntl\Facades\Number;
 
 // Application locale: fr
 Number::parse('1 000'); // 1000
+Number::parse('1,5'); // 1.5
+```
+
+```php
+// Application locale: fr
+number()->parse('1 000'); // 1000
 number()->parse('1,5'); // 1.5
 ```
 
 ### Changing locales
 
-Ever feel the need to use a locale other than the current application locale? You can temporarily use another locale by using the `usingLocale()` method.
+Ever feel the need to use a locale other than the current application locale? You can temporarily use another locale by using the `forLocale()` method.
 
 ```php
 country()->name('US'); // United States
 
-country()->usingLocale('nl', function($country) {
+country()->forLocale('nl', function($country) {
     return $country->name('US');
 }); // Verenigde Staten
 
 country()->name('US'); // United States
 ```
 
-Alternatively, you can force each component individually to the preferred locale for the remainder of the application by calling the `setLocale()` on the helper function or Facade.
+Alternatively, you can force each component individually to the preferred locale for the rest of the application by calling the `setLocale()` on the helper function or Facade.
 Usually you'd set this in the `boot()` method of a *ServiceProvider*.
+
+```php
+country()->setLocale($locale);
+currency()->setLocale($locale);
+carbon()->setLocale($locale);
+language()->setLocale($locale);
+number()->setLocale($locale);
+
+country()->setFallbackLocale($locale);
+currency()->setFallbackLocale($locale);
+carbon()->setFallbackLocale($locale);
+language()->setFallbackLocale($locale);
+number()->setFallbackLocale($locale);
+```

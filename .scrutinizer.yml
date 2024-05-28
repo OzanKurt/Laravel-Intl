@@ -3,6 +3,10 @@ filter:
         - 'src/*'
     excluded_paths:
         - 'tests/*'
+        - 'bin/*'
+        - 'spec/*'
+        - 'stub/*'
+        - 'coverage/*'
         - 'vendor/*'
 
 checks:

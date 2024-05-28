@@ -1,13 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Date;
-
-if (! function_exists('country')) {
+if (!function_exists('country')) {
     /**
      * Get a localized country name.
      *
      * @param string|null $countryCode
-     * @return \Kurt\LaravelIntl\Country|string
+     * @return \CommerceGuys\Intl\Country\Country|string
      */
     function country($countryCode = null)
     {
@@ -19,11 +17,11 @@ if (! function_exists('country')) {
     }
 }
 
-if (! function_exists('currency')) {
+if (!function_exists('currency')) {
     /**
      * Get a localized currency or currency amount.
      *
-     * @return \Kurt\LaravelIntl\Currency|string
+     * @return \CommerceGuys\Intl\Currency\Currency|string
      */
     function currency()
     {
@@ -34,33 +32,33 @@ if (! function_exists('currency')) {
         }
 
         if (count($arguments) > 0 && is_numeric($arguments[0])) {
-            return app('intl.currency')->format(...$arguments);
+            return call_user_func_array([app('intl.currency'), 'format'], $arguments);
         }
 
-        return app('intl.currency')->name(...$arguments);
+        return call_user_func_array([app('intl.currency'), 'name'], $arguments);
     }
 }
 
-if (! function_exists('carbon')) {
+if (!function_exists('carbon')) {
     /**
      * Get a localized Carbon instance.
      *
-     * @param  string $time
+     * @param  string              $time
      * @param  string|DateTimeZone $timezone
-     * @return \Illuminate\Support\DateFactory|string
+     * @return \Jenssegers\Date\Date|string
      */
     function carbon($time = null, $timezone = null)
     {
-        return Date::make($time, $timezone);
+        return app('intl.date')->make($time, $timezone);
     }
 }
 
-if (! function_exists('language')) {
+if (!function_exists('language')) {
     /**
      * Get a localized language name.
      *
      * @param string|null $langCode
-     * @return \Kurt\LaravelIntl\Language|string
+     * @return \CommerceGuys\Intl\Language\Language|string
      */
     function language($langCode = null)
     {
@@ -72,20 +70,23 @@ if (! function_exists('language')) {
     }
 }
 
-if (! function_exists('number')) {
+if (!function_exists('number')) {
     /**
-     * Get a formatted localized number.
+     * Get a localized value.
      *
-     * @param string|int|float|null $number
-     * @param array $options
-     * @return \Kurt\LaravelIntl\Number|string
+     * @param int|float|string|null $amount
+     * @return \CommerceGuys\Intl\NumberFormat\NumberFormat|string
      */
-    function number($number = null, $options = [])
+    function number($amount = null)
     {
-        if (is_null($number)) {
+        if (is_null($amount)) {
             return app('intl.number');
         }
 
-        return app('intl.number')->format($number, $options);
+        if (!is_numeric($amount)) {
+            return app('intl.number')->get($amount);
+        }
+
+        return app('intl.number')->format($amount);
     }
 }

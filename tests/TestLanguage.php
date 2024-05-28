@@ -1,38 +1,27 @@
-<?php
-
-namespace Kurt\LaravelIntl\Tests;
+<?php namespace Propaganistas\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Language;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use Propaganistas\LaravelIntl\Facades\Language;
+use Propaganistas\LaravelIntl\IntlServiceProvider;
 
 class TestLanguage extends TestCase
 {
-    /**
-     * @param \Illuminate\Foundation\Application $application
-     * @return array
-     */
-    protected function getPackageProviders($application)
+    public function getPackageProviders($app)
     {
         return [IntlServiceProvider::class];
     }
 
-    public function setUp(): void
+    public function setUp()
     {
-        require_once __DIR__.'/../src/helpers.php';
+        require_once __DIR__ . '/../src/helpers.php';
 
         parent::setUp();
-    }
-
-    protected function getEnvironmentSetUp($app)
-    {
-        $app->setBasePath(__DIR__ . '/..');
     }
 
     public function testHelper()
     {
         $this->assertEquals('Dutch', language('nl'));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Language', get_class(language()));
+        $this->assertEquals('Propaganistas\LaravelIntl\Language', get_class(language()));
     }
 
     public function testHelperIsInSyncWithFacade()
@@ -52,18 +41,15 @@ class TestLanguage extends TestCase
 
     public function testFallbackLocaleIsUsed()
     {
-        // Skip, this functionality has been removed.
-        $this->assertEquals(1, 1);
-
-        // Language::setLocale('foo');
-        // Language::setFallbackLocale('fr');
-        // $this->assertEquals('néerlandais', Language::name('nl'));
+        Language::setLocale('foo');
+        Language::setFallbackLocale('fr');
+        $this->assertEquals('néerlandais', Language::name('nl'));
     }
 
     public function testLocaleCanBeTemporarilyChanged()
     {
         $this->app->setLocale('nl');
-        $name = Language::usingLocale('en', function ($language) {
+        $name = Language::forLocale('en', function($language) {
             return Language::name('nl');
         });
 
@@ -74,18 +60,17 @@ class TestLanguage extends TestCase
     public function testGet()
     {
         $language = Language::get('nl');
-        $this->assertEquals('Dutch', $language);
+        $this->assertEquals('CommerceGuys\Intl\Language\Language', get_class($language));
+        $this->assertEquals('nl', $language->getLanguageCode());
     }
 
     public function testAll()
     {
         $languages = Language::all();
-        $this->assertEquals('Dutch', $languages['nl']);
-        $this->assertEquals('French', $languages['fr']);
+        $this->assertArraySubset(['nl' => 'Dutch', 'fr' => 'French'], $languages);
 
         $languages = Language::setLocale('nl')->all();
-        $this->assertEquals('Nederlands', $languages['nl']);
-        $this->assertEquals('Frans', $languages['fr']);
+        $this->assertArraySubset(['nl' => 'Nederlands', 'fr' => 'Frans'], $languages);
     }
 
     public function testName()
