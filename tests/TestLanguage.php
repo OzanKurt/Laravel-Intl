@@ -1,10 +1,10 @@
 <?php
 
-namespace Kurt\LaravelIntl\Tests;
+namespace OzanKurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Language;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use OzanKurt\LaravelIntl\Facades\Language;
+use OzanKurt\LaravelIntl\IntlServiceProvider;
 
 class TestLanguage extends TestCase
 {
@@ -32,7 +32,7 @@ class TestLanguage extends TestCase
     public function testHelper()
     {
         $this->assertEquals('Dutch', language('nl'));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Language', get_class(language()));
+        $this->assertEquals('OzanKurt\LaravelIntl\Models\Language', get_class(language()));
     }
 
     public function testHelperIsInSyncWithFacade()

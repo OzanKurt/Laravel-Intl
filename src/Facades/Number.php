@@ -1,6 +1,6 @@
 <?php
 
-namespace Kurt\LaravelIntl\Facades;
+namespace OzanKurt\LaravelIntl\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

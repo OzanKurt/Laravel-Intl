@@ -1,10 +1,10 @@
 <?php
 
-namespace Kurt\LaravelIntl\Tests;
+namespace OzanKurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Country;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use OzanKurt\LaravelIntl\Facades\Country;
+use OzanKurt\LaravelIntl\IntlServiceProvider;
 
 class TestCountry extends TestCase
 {
@@ -33,7 +33,7 @@ class TestCountry extends TestCase
     public function testHelper()
     {
         $this->assertEquals('Türkiye', country('TR'));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Country', get_class(country()));
+        $this->assertEquals('OzanKurt\LaravelIntl\Models\Country', get_class(country()));
     }
 
     public function testHelperIsInSyncWithFacade()

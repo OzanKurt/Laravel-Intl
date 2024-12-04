@@ -1,10 +1,10 @@
 <?php
 
-namespace Kurt\LaravelIntl\Models;
+namespace OzanKurt\LaravelIntl\Models;
 
 use Illuminate\Support\Arr;
-use Kurt\LaravelIntl\Contracts\Intl;
-use Kurt\LaravelIntl\Concerns\WithLocales;
+use OzanKurt\LaravelIntl\Contracts\Intl;
+use OzanKurt\LaravelIntl\Concerns\WithLocales;
 use CommerceGuys\Intl\Formatter\NumberFormatter;
 use CommerceGuys\Intl\NumberFormat\NumberFormatRepository;
 

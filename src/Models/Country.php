@@ -1,11 +1,11 @@
 <?php
 
-namespace Kurt\LaravelIntl\Models;
+namespace OzanKurt\LaravelIntl\Models;
 
 use Illuminate\Support\Arr;
-use Kurt\LaravelIntl\Contracts\Intl;
-use Kurt\LaravelIntl\Concerns\WithLocales;
-use Kurt\LaravelIntl\Exceptions\MissingLocaleException;
+use OzanKurt\LaravelIntl\Contracts\Intl;
+use OzanKurt\LaravelIntl\Concerns\WithLocales;
+use OzanKurt\LaravelIntl\Exceptions\MissingLocaleException;
 
 class Country extends Intl
 {

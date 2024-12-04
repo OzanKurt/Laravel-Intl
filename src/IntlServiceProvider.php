@@ -1,14 +1,14 @@
 <?php
 
-namespace Kurt\LaravelIntl;
+namespace OzanKurt\LaravelIntl;
 
-use Kurt\LaravelIntl\Models\Number;
-use Kurt\LaravelIntl\Models\Country;
-use Kurt\LaravelIntl\Models\Currency;
-use Kurt\LaravelIntl\Models\Language;
+use OzanKurt\LaravelIntl\Models\Number;
+use OzanKurt\LaravelIntl\Models\Country;
+use OzanKurt\LaravelIntl\Models\Currency;
+use OzanKurt\LaravelIntl\Models\Language;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Events\LocaleUpdated;
-use Kurt\LaravelIntl\Console\InstallLocaleCommand;
+use OzanKurt\LaravelIntl\Console\InstallLocaleCommand;
 
 class IntlServiceProvider extends ServiceProvider
 {

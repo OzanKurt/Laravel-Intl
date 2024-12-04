@@ -1,6 +1,6 @@
 <?php
 
-namespace Kurt\LaravelIntl\Concerns;
+namespace OzanKurt\LaravelIntl\Concerns;
 
 trait WithLocales
 {

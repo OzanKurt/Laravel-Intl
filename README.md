@@ -48,7 +48,7 @@ If you don't use auto-discovery, open up your app config and add the Service Pro
  ```php
 'providers' => [
     ...
-    Kurt\LaravelIntl\IntlServiceProvider::class,
+    OzanKurt\LaravelIntl\IntlServiceProvider::class,
 ],
 ```
 
@@ -56,7 +56,7 @@ If you don't use auto-discovery, open up your app config and add the Service Pro
 In `bootstrap/app.php`, register the Service Provider
 
  ```php
-$app->register(Kurt\LaravelIntl\IntlServiceProvider::class);
+$app->register(OzanKurt\LaravelIntl\IntlServiceProvider::class);
 ```
 
 ### Usage
@@ -67,7 +67,7 @@ $app->register(Kurt\LaravelIntl\IntlServiceProvider::class);
 
 Output localized country names.
 ```php
-use Kurt\LaravelIntl\Facades\Country;
+use OzanKurt\LaravelIntl\Facades\Country;
 
 // Application locale: nl
 Country::name('US'); // Verenigde Staten
@@ -85,7 +85,7 @@ country()->all(); // ['US' => 'United States', 'BE' => 'Belgium', ...]
 Output localized currency names and format currency amounts into their localized pattern.
 
 ```php
-use Kurt\LaravelIntl\Facades\Currency;
+use OzanKurt\LaravelIntl\Facades\Currency;
 
 // Application locale: nl
 Currency::name('USD'); // Amerikaanse dollar
@@ -106,7 +106,7 @@ currency()->all(); // ['USD' => 'US Dollar', 'EUR' => 'Euro', ...]
 Parse localized values into native PHP numbers.
 
 ```php
-use Kurt\LaravelIntl\Facades\Currency;
+use OzanKurt\LaravelIntl\Facades\Currency;
 
 // Application locale: nl
 Currency::parse('€ 1.234,50'); // 1234.5
@@ -152,7 +152,7 @@ $date->toFullDatetimeString();
 Output localized language names.
 
 ```php
-use Kurt\LaravelIntl\Facades\Language;
+use OzanKurt\LaravelIntl\Facades\Language;
 
 // Application locale: nl
 Language::name('en'); // Engels
@@ -170,7 +170,7 @@ language()->all(); // ['en' => 'English', 'nl' => 'Dutch', ...]
 Output localized numeric values into their localized pattern.
 
 ```php
-use Kurt\LaravelIntl\Facades\Number;
+use OzanKurt\LaravelIntl\Facades\Number;
 
 // Application locale: en
 Number::format(1000); // '1,000'
@@ -186,7 +186,7 @@ number()->percent('0.75'); // '75 %'
 Parse localized values into native PHP numbers.
 
 ```php
-use Kurt\LaravelIntl\Facades\Number;
+use OzanKurt\LaravelIntl\Facades\Number;
 
 // Application locale: fr
 Number::parse('1 000'); // 1000

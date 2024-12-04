@@ -1,10 +1,10 @@
 <?php
 
-namespace Kurt\LaravelIntl\Tests;
+namespace OzanKurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Number;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use OzanKurt\LaravelIntl\Facades\Number;
+use OzanKurt\LaravelIntl\IntlServiceProvider;
 
 class TestNumber extends TestCase
 {
@@ -27,7 +27,7 @@ class TestNumber extends TestCase
     public function testHelper()
     {
         $this->assertEquals('1,234', number(1234));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Number', get_class(number()));
+        $this->assertEquals('OzanKurt\LaravelIntl\Models\Number', get_class(number()));
     }
 
     public function testHelperIsInSyncWithFacade()

@@ -1,10 +1,10 @@
 <?php
 
-namespace Kurt\LaravelIntl\Tests;
+namespace OzanKurt\LaravelIntl\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Kurt\LaravelIntl\Facades\Currency;
-use Kurt\LaravelIntl\IntlServiceProvider;
+use OzanKurt\LaravelIntl\Facades\Currency;
+use OzanKurt\LaravelIntl\IntlServiceProvider;
 
 class TestCurrency extends TestCase
 {
@@ -27,7 +27,7 @@ class TestCurrency extends TestCase
     public function testHelper()
     {
         $this->assertEquals('US Dollar', currency('USD'));
-        $this->assertEquals('Kurt\LaravelIntl\Models\Currency', get_class(currency()));
+        $this->assertEquals('OzanKurt\LaravelIntl\Models\Currency', get_class(currency()));
         $this->assertEquals('€1,234.00', currency(1234, 'EUR'));
     }
 
